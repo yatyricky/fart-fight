@@ -41,12 +41,16 @@ class App extends React.Component {
     response() {
         if (this.socket == null) {
             this.socket = io();
+
+            let sendName = this.state.playerName
+            if (sendName == "") {
+                sendName = "玩家"
+            }
             this.socket.emit('login', {
-                name: this.state.playerName
+                name: sendName
             })
     
             this.socket.on('login', (data) => {
-                console.log(`Received login ${JSON.stringify(data)}`);
                 this.setState({
                     players: data
                 })
@@ -65,7 +69,6 @@ class App extends React.Component {
                 if (data.loop == false) {
                     this.runTimer()
                 }
-                console.log('run timer once');
             })
         }
     }
@@ -84,8 +87,6 @@ class App extends React.Component {
 
     actShock() {
         if (this.power > 0) {
-            console.log('emit shock');
-            
             this.socket.emit('shock', {
                 name: this.state.playerName
             })
@@ -117,7 +118,7 @@ class App extends React.Component {
         if (this.state.players.length == 0) {
             return (
                 <div className="container">
-                    <div>Player Name</div>
+                    <div>输入名字</div>
                     <input
                         type="text"
                         ref="inputName"
@@ -125,7 +126,7 @@ class App extends React.Component {
                         className="form-control"
                         onChange={this.validateInput}
                     />
-                    <div className="btn btn-primary" onClick={this.response}>Start</div>
+                    <div className="btn btn-primary" onClick={this.response}>开始</div>
                 </div>
             );
         } else {
@@ -134,16 +135,25 @@ class App extends React.Component {
                 const element = this.state.players[i];
                 
                 let actDOM = element.act;
+                if (element.act == 'charge') {
+                    actDOM = "蓄"
+                } else if (element.act == 'shock') {
+                    actDOM = "波"
+                } else if (element.act == 'block') {
+                    actDOM = "挡"
+                } else if (element.act == 'nuke') {
+                    actDOM = "元气弹"
+                }
                 if (element.name == this.state.playerName) {
                     if (element.status == 'wait') {
-                        actDOM = (<div className="btn btn-primary" onClick={this.actReady}>Ready</div>)
+                        actDOM = (<div className="btn btn-primary" onClick={this.actReady}>准备</div>)
                     } else {
                         actDOM = (
                             <div>
-                                <div className="btn btn-success act" onClick={this.actCharge}>Charge</div>
-                                <div className="btn btn-warning act" onClick={this.actShock}>Shockwave</div>
-                                <div className="btn btn-info act" onClick={this.actBlock}>Block</div>
-                                <div className="btn btn-danger act" onClick={this.actNuke}>Nuke</div>
+                                <div className="btn btn-success act" onClick={this.actCharge}>蓄</div>
+                                <div className="btn btn-warning act" onClick={this.actShock}>波</div>
+                                <div className="btn btn-info act" onClick={this.actBlock}>挡</div>
+                                <div className="btn btn-danger act" onClick={this.actNuke}>元气弹</div>
                             </div>
                         )
                     }
@@ -193,10 +203,10 @@ class App extends React.Component {
                         <thead>
                             <tr>
                                 <th>&nbsp;</th>
-                                <th>Player</th>
-                                <th>Power</th>
-                                <th>Action</th>
-                                <th>Score</th>
+                                <th>玩家</th>
+                                <th>力</th>
+                                <th>动作</th>
+                                <th>得分</th>
                             </tr>
                         </thead>
                         <tbody>
