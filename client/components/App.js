@@ -164,6 +164,10 @@ class App extends React.Component {
                     }
                 }
 
+                if (element.face == 'died' && element.status != 'wait') {
+                    actDOM = '你死了'
+                }
+
                 let face = null;
                 switch (element.face) {
                     case 'alive':
