@@ -51,6 +51,7 @@ class App extends React.Component {
             })
     
             this.socket.on('login', (data) => {
+                console.table(data);
                 this.setState({
                     players: data
                 })
@@ -134,38 +135,55 @@ class App extends React.Component {
             for (let i = 0; i < this.state.players.length; i++) {
                 const element = this.state.players[i];
                 
-                let actDOM = element.act;
-                if (element.act == 'charge') {
-                    actDOM = "蓄"
-                } else if (element.act == 'shock') {
-                    actDOM = "波"
-                } else if (element.act == 'block') {
-                    actDOM = "挡"
-                } else if (element.act == 'nuke') {
-                    actDOM = "元气弹"
-                }
+                let actDOM = ''
                 if (element.name == this.state.playerName) {
-                    if (element.status == 'wait') {
+                    // local player
+                    if (element.status == 'game') {
+                        if (element.face == 'died') {
+                            actDOM = "你死了"
+                        } else {
+                            actDOM = (
+                                <div>
+                                    <div className="btn btn-success act" onClick={this.actCharge}>蓄</div>
+                                    <div className="btn btn-warning act" onClick={this.actShock}>波</div>
+                                    <div className="btn btn-info act" onClick={this.actBlock}>挡</div>
+                                    <div className="btn btn-danger act" onClick={this.actNuke}>元气弹</div>
+                                </div>
+                            )
+                        }
+                    } else if (element.status == 'ready') {
+                        actDOM = "等待其他玩家准备"
+                    } else if (element.status == 'wait') {
                         actDOM = (<div className="btn btn-primary" onClick={this.actReady}>准备</div>)
                     } else {
-                        actDOM = (
-                            <div>
-                                <div className="btn btn-success act" onClick={this.actCharge}>蓄</div>
-                                <div className="btn btn-warning act" onClick={this.actShock}>波</div>
-                                <div className="btn btn-info act" onClick={this.actBlock}>挡</div>
-                                <div className="btn btn-danger act" onClick={this.actNuke}>元气弹</div>
-                            </div>
-                        )
+                        actDOM = "❌错误"
                     }
                     this.power = element.power
                 } else {
-                    if (element.act == '' && element.status == 'wait') {
-                        actDOM = element.status
+                    // other player
+                    if (element.status == 'game') {
+                        if (element.face == 'died') {
+                            actDOM = "死了"
+                        } else {
+                            if (element.act == 'charge') {
+                                actDOM = "蓄"
+                            } else if (element.act == 'shock') {
+                                actDOM = "波"
+                            } else if (element.act == 'block') {
+                                actDOM = "挡"
+                            } else if (element.act == 'nuke') {
+                                actDOM = "元气弹"
+                            } else {
+                                actDOM = ""
+                            }
+                        }
+                    } else if (element.status == 'ready') {
+                        actDOM = "已准备"
+                    } else if (element.status == 'wait') {
+                        actDOM = "等待中"
+                    } else {
+                        actDOM = "❌错误"
                     }
-                }
-
-                if (element.face == 'died' && element.status != 'wait') {
-                    actDOM = '你死了'
                 }
 
                 let face = null;
@@ -177,10 +195,10 @@ class App extends React.Component {
                         face = "👿";
                         break;
                     case 'died':
-                        face = "☠";
+                        face = "💀";
                         break;
                     default:
-                        face = "😄";
+                        face = "❌错误";
                         break;
                 }
                 entries.push(
