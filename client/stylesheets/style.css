@@ -1,0 +1,19 @@
+.container {
+    width: 720px;
+    margin: 0 auto;
+    margin-top: 60px;
+}
+.act {
+    margin-right: 5px;
+}
+#time-bar {
+    height: 12px;
+    width: 100%;
+    background-color: #28a745;
+}
+
+@media (max-width: 720px) {
+    .container {
+        width: 100%;
+    }
+}

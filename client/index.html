@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+
+    <title>New Pit</title>
+</head>
+<body>
+<div class="container">
+    <div id="login-page">
+        <form id="login-form">
+            <div class="form-group">
+                <label for="inputPlayerName">玩家名字</label>
+                <input type="text" class="form-control" id="inputPlayerName" aria-describedby="emailHelp" placeholder="输入玩家名" />
+            </div>
+            <div class="form-group">
+                <label for="inputRoomId">房间号</label>
+                <input type="text" class="form-control" id="inputRoomId" value="100" disabled />
+            </div>
+            <button type="submit" class="btn btn-primary">开始游戏</button>
+        </form>
+    </div>
+
+    <div id="game-page">
+        <div id="time-bar"></div>
+        <table class="table">
+        <thead>
+            <tr>
+                <th>&nbsp;</th>
+                <th>玩家</th>
+                <th>力</th>
+                <th>动作</th>
+                <th>得分</th>
+            </tr>
+        </thead>
+        <tbody id="game-table"></tbody>
+        </table>
+    </div>
+
+    <div id="toast" class="alert alert-danger" role="alert">
+        This is a warning alert—check it out!
+    </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript">
+const socket = io('http://localhost:3000');
+
+const loginPage = document.getElementById("login-page");
+const gamePage = document.getElementById("game-page");
+const toast = document.getElementById("toast");
+const timeBar = document.getElementById("time-bar");
+
+const toggleDOM = (dom, show) => {
+    if (show == true) {
+        dom.style.display = "block";
+    } else {
+        dom.style.display = "none";
+    }
+}
+
+toggleDOM(gamePage, false);
+toggleDOM(toast, false);
+
+const flashToast = text => {
+    toast.removeChild(toast.firstChild);
+    toast.appendChild(document.createTextNode(text));
+    toggleDOM(toast, true);
+    setTimeout(() => {
+        toggleDOM(toast, false);
+    }, 3000);
+};
+
+let localName = "";
+let localPower = 0;
+
+let playerData = [];
+const gameTable = document.getElementById("game-table");
+const rerenderGameTable = () => {
+    while (gameTable.firstChild) {
+        gameTable.removeChild(gameTable.firstChild);
+    }
+    for (let i = 0; i < playerData.length; i++) {
+        const element = playerData[i];
+        const tr = document.createElement("tr");
+
+        const face = document.createElement("td");
+        let faceText = "";
+        switch (element.face) {
+            case 100:
+                faceText = "😄";
+                break;
+            case 200:
+                faceText = "👿";
+                break;
+            case 300:
+                faceText = "💀";
+                break;
+            default:
+                faceText = "❌错误";
+                break;
+        }
+        face.appendChild(document.createTextNode(faceText));
+
+        const name = document.createElement("td");
+        name.appendChild(document.createTextNode(element.name));
+
+        const power = document.createElement("td");
+        power.appendChild(document.createTextNode(element.power));
+
+        const act = document.createElement("td");
+        let actNode = null;
+        
+        if (localName == element.name) {
+            switch (element.state) {
+                case 100:
+                    actNode = document.createElement("div");
+                    actNode.className = "btn btn-primary";
+                    actNode.appendChild(document.createTextNode("准备"));
+                    actNode.onclick = e => {
+                        socket.emit('ready', localName);
+                    };
+                    break;
+                case 200:
+                    actNode = document.createTextNode("已准备");
+                    break;
+                case 300:
+                    const chargeBtn = document.createElement("div");
+                    chargeBtn.className = "btn btn-success act";
+                    chargeBtn.appendChild(document.createTextNode("蓄"));
+                    chargeBtn.onclick = e => socket.emit('charge', localName);
+
+                    const shockBtn = document.createElement("div");
+                    shockBtn.className = "btn btn-warning act";
+                    shockBtn.appendChild(document.createTextNode("波"));
+                    shockBtn.onclick = e => socket.emit('shock', localName);
+
+                    const blockBtn = document.createElement("div");
+                    blockBtn.className = "btn btn-info act";
+                    blockBtn.appendChild(document.createTextNode("挡"));
+                    blockBtn.onclick = e => socket.emit('block', localName);
+
+                    const nukeBtn = document.createElement("div");
+                    nukeBtn.className = "btn btn-danger act";
+                    nukeBtn.appendChild(document.createTextNode("元气弹"));
+                    nukeBtn.onclick = e => socket.emit('nuke', localName);
+
+                    actNode = document.createElement("div");
+                    actNode.appendChild(chargeBtn);
+                    actNode.appendChild(shockBtn);
+                    actNode.appendChild(blockBtn);
+                    actNode.appendChild(nukeBtn);
+                    break;
+                case 400:
+                    actNode = document.createTextNode("你死了");
+                    break;
+                default:
+                    actNode = document.createTextNode("❌错误");
+                    break;
+            }
+            localPower = element.power;
+        } else {
+            switch (element.state) {
+                case 100:
+                    actNode = document.createTextNode("等待");
+                    break;
+                case 200:
+                    actNode = document.createTextNode("已准备");
+                    break;
+                case 300:
+                    switch (element.act) {
+                        case 100:
+                            actNode = document.createTextNode("蓄");
+                            break;
+                        case 200:
+                            actNode = document.createTextNode("波");
+                            break;
+                        case 300:
+                            actNode = document.createTextNode("挡");
+                            break;
+                        case 400:
+                            actNode = document.createTextNode("元气弹");
+                            break;
+                        default:
+                            actNode = document.createTextNode("");
+                            break;
+                    }
+                    break;
+                case 400:
+                    actNode = document.createTextNode("你死了");
+                    break;
+                default:
+                    actNode = document.createTextNode("❌错误");
+                    break;
+            }
+        }
+        act.appendChild(actNode);
+
+        const score = document.createElement("td");
+        score.appendChild(document.createTextNode(element.score));
+
+        tr.appendChild(face);
+        tr.appendChild(name);
+        tr.appendChild(power);
+        tr.appendChild(act);
+        tr.appendChild(score);
+        gameTable.appendChild(tr);
+    }
+}
+
+socket.on('correct name', data => {
+    localName = data;
+    console.log(`[I]name changed to ${localName}`);
+    rerenderGameTable();
+});
+
+socket.on('login result', data => {
+    if (data == 'room is full') {
+        flashToast("房间已满");
+    } else {
+        toggleDOM(loginPage, false);
+        toggleDOM(gamePage, true);
+        rerenderGameTable();
+    }
+});
+
+socket.on('update players', data => {
+    playerData = data;
+    console.table(playerData);
+    rerenderGameTable();
+});
+
+let progress = 125;
+let timerHandle = null;
+socket.on('run timer', data => {
+    clearInterval(timerHandle);
+    progress = 125;
+    timeBar.style.width = progress / 125 * 100 + '%';
+    timerHandle = setInterval(() => {
+        progress -= 1;
+        timeBar.style.width = progress / 125 * 100 + '%';
+    }, 40);
+});
+
+document.getElementById("login-form").onsubmit = e => {
+    e.preventDefault();
+    let name = e.target.elements.inputPlayerName.value;
+    if (name == "") {
+        name = "玩家";
+    }
+    localName = name;
+    socket.emit('login', {
+        name: name,
+    });
+};
+
+</script>
+</body>
+</html>
