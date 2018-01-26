@@ -1,13 +1,3 @@
-// Learn cc.Class:
-//  - [Chinese] http://www.cocos.com/docs/creator/scripting/class.html
-//  - [English] http://www.cocos2d-x.org/docs/editors_and_tools/creator-chapters/scripting/class/index.html
-// Learn Attribute:
-//  - [Chinese] http://www.cocos.com/docs/creator/scripting/reference/attributes.html
-//  - [English] http://www.cocos2d-x.org/docs/editors_and_tools/creator-chapters/scripting/reference/attributes/index.html
-// Learn life-cycle callbacks:
-//  - [Chinese] http://www.cocos.com/docs/creator/scripting/life-cycle-callbacks.html
-//  - [English] http://www.cocos2d-x.org/docs/editors_and_tools/creator-chapters/scripting/life-cycle-callbacks/index.html
-
 cc.Class({
     extends: cc.Component,
 
@@ -22,12 +12,23 @@ cc.Class({
         }
     },
 
-    // LIFE-CYCLE CALLBACKS:
+    onLoad() {
+        this.gm = cc.find('gameManager').getComponent('gameManager');
+    },
 
     onStartClicked () {
-        let name = this.inputPlayerName.getComponent(cc.EditBox).string;
-        let roomId = this.inputRoomId.getComponent(cc.EditBox).string;
+        var name = this.inputPlayerName.getComponent(cc.EditBox).string;
+        var roomId = this.inputRoomId.getComponent(cc.EditBox).string;
         console.log(`name = ${name} roomId = ${roomId}`);
+        if (name.length > 0) {
+            this.gm.emit(reqs.LOGIN, {
+                name: name,
+                roomId: roomId
+            });
+        } else {
+            // toast 
+            // please enter name
+        }
     }
 
 });
