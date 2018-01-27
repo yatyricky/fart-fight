@@ -20,6 +20,10 @@ cc.Class({
             default: null,
             type: cc.Node
         },
+        timerNode: {
+            default: null,
+            type: cc.Node
+        },
         localPlayerNode: {
             default: null,
             type: cc.Node
@@ -43,7 +47,9 @@ cc.Class({
     onLoad () {
         this.gm = cc.find('gameManager').getComponent('gameManager');
         this.roomIdUpdated = false;
+        this.timer = this.timerNode.getComponent('timerBehaviour');
         this.localPlayer = this.localPlayerNode.getComponent('playerBehaviour');
+        this.localPlayerBehaviour = this.localPlayerNode.getComponent('localPlayer');
         this.otherPlayers = [];
         this.otherPlayers.push(this.p1.getComponent('playerBehaviour'));
         this.otherPlayers.push(this.p2.getComponent('playerBehaviour'));
@@ -51,6 +57,8 @@ cc.Class({
         for (let i = 0; i < this.otherPlayers.length; i++) {
             this.otherPlayers[i].node.active = false;
         }
+
+        this.gm.setGameScene(this);
     },
     
     start () {
@@ -67,6 +75,7 @@ cc.Class({
                 let playerBehaviourObject;
                 if (element.name == this.gm.localName) {
                     playerBehaviourObject = this.localPlayer;
+                    this.localPlayerBehaviour.updateShockButton(element.power);
                 } else {
                     playerBehaviourObject = this.otherPlayers[otherIndex++];
                     playerBehaviourObject.node.active = true;
@@ -94,4 +103,9 @@ cc.Class({
         this.refreshPlayers();
         this.updateRoomNumber();
     },
+
+    runTimer() {
+        this.timer.countDown();
+        this.localPlayerBehaviour.blockNode.getComponent(cc.Toggle).check();
+    }
 });

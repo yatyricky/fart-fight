@@ -68,6 +68,8 @@ cc.Class({
         this.powerNodes.push(this.p3Node);
         this.powerNodes.push(this.p4Node);
         this.powerNodes.push(this.p5Node);
+
+        this.power = 0;
     },
 
     setName (val) {
@@ -127,38 +129,14 @@ cc.Class({
     },
 
     setPower(val) {
+        this.power = val;
         let i = 0;
-        while (i < val) {
+        while (i < val && i < NUKE_POWER) {
             this.powerNodes[i++].active = true;
         }
-        while (i < 5) {
+        while (i < NUKE_POWER) {
             this.powerNodes[i++].active = false;
         }
-    },
-
-    onReadyClicked () {
-        console.log(`clicked ready`);
-        this.gm.emit(reqs.READY, this.gm.localName);
-    },
-
-    onChargeClicked () {
-        console.log(`clicked Charge`);
-        this.gm.emit(reqs.CHARGE, this.gm.localName);
-    },
-
-    onShockClicked () {
-        console.log(`clicked Shock`);
-        this.gm.emit(reqs.SHOCK, this.gm.localName);
-    },
-
-    onBlockClicked () {
-        console.log(`clicked Block`);
-        this.gm.emit(reqs.BLOCK, this.gm.localName);
-    },
-
-    onNukeClicked () {
-        console.log(`clicked Nuke`);
-        this.gm.emit(reqs.NUKE, this.gm.localName);
     }
 
 });

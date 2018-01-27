@@ -6,12 +6,13 @@ cc.Class({
     onLoad () {
         cc.game.addPersistRootNode(this.node);
 
-        this.socket = io('ws://192.168.3.22:3000');
+        this.socket = io(serverURL);
         this.playerData = null;
         this.roomId = -1;
         this.localName = "";
 
         this.updatePlayerCallbacks = [];
+        this.gameScene = null;
 
         this.socket.on(recs.CORRECT_NAME, (data) => {
             this.localName = data;
@@ -35,10 +36,20 @@ cc.Class({
                 }
             }
         });
+
+        this.socket.on(recs.RUN_TIMER, (data) => {
+            if (this.gameScene != null) {
+                this.gameScene.runTimer();
+            }
+        });
     },
 
     emit (ename, payload) {
         this.socket.emit(ename, payload);
     },
+
+    setGameScene (gameScene) {
+        this.gameScene = gameScene;
+    }
 
 });
