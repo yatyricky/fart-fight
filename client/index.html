@@ -20,7 +20,7 @@
             </div>
             <div class="form-group">
                 <label for="inputRoomId">房间号</label>
-                <input type="text" class="form-control" id="inputRoomId" value="100" disabled />
+                <input type="text" class="form-control" id="inputRoomId" placeholder="输入房间号" />
             </div>
             <button type="submit" class="btn btn-primary">开始游戏</button>
         </form>
@@ -92,13 +92,13 @@ const rerenderGameTable = () => {
         const face = document.createElement("td");
         let faceText = "";
         switch (element.face) {
-            case 100:
+            case 'smile':
                 faceText = "😄";
                 break;
-            case 200:
+            case 'evil':
                 faceText = "👿";
                 break;
-            case 300:
+            case 'died':
                 faceText = "💀";
                 break;
             default:
@@ -118,7 +118,7 @@ const rerenderGameTable = () => {
         
         if (localName == element.name) {
             switch (element.state) {
-                case 100:
+                case 'wait':
                     actNode = document.createElement("div");
                     actNode.className = "btn btn-primary";
                     actNode.appendChild(document.createTextNode("准备"));
@@ -126,10 +126,10 @@ const rerenderGameTable = () => {
                         socket.emit('ready', localName);
                     };
                     break;
-                case 200:
+                case 'ready':
                     actNode = document.createTextNode("已准备");
                     break;
-                case 300:
+                case 'game':
                     const chargeBtn = document.createElement("div");
                     chargeBtn.className = "btn btn-success act";
                     chargeBtn.appendChild(document.createTextNode("蓄"));
@@ -156,7 +156,7 @@ const rerenderGameTable = () => {
                     actNode.appendChild(blockBtn);
                     actNode.appendChild(nukeBtn);
                     break;
-                case 400:
+                case 'died':
                     actNode = document.createTextNode("你死了");
                     break;
                 default:
@@ -166,24 +166,24 @@ const rerenderGameTable = () => {
             localPower = element.power;
         } else {
             switch (element.state) {
-                case 100:
+                case 'wait':
                     actNode = document.createTextNode("等待");
                     break;
-                case 200:
+                case 'ready':
                     actNode = document.createTextNode("已准备");
                     break;
-                case 300:
+                case 'game':
                     switch (element.act) {
-                        case 100:
+                        case 'charge':
                             actNode = document.createTextNode("蓄");
                             break;
-                        case 200:
+                        case 'shock':
                             actNode = document.createTextNode("波");
                             break;
-                        case 300:
+                        case 'block':
                             actNode = document.createTextNode("挡");
                             break;
-                        case 400:
+                        case 'nuke':
                             actNode = document.createTextNode("元气弹");
                             break;
                         default:
@@ -191,7 +191,7 @@ const rerenderGameTable = () => {
                             break;
                     }
                     break;
-                case 400:
+                case 'died':
                     actNode = document.createTextNode("你死了");
                     break;
                 default:
@@ -220,8 +220,12 @@ socket.on('correct name', data => {
 });
 
 socket.on('login result', data => {
-    if (data == 'room is full') {
-        flashToast("房间已满");
+    if (data.res == 'fail') {
+        if (data.reason == 'room is full') {
+            flashToast("房间已满");
+        } else if (data.reason == 'no such room') {
+            flashToast("房间不存在");
+        }
     } else {
         toggleDOM(loginPage, false);
         toggleDOM(gamePage, true);
@@ -256,6 +260,7 @@ document.getElementById("login-form").onsubmit = e => {
     localName = name;
     socket.emit('login', {
         name: name,
+        roomId: e.target.elements.inputRoomId.value
     });
 };
 
