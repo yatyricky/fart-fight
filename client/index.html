@@ -28,6 +28,7 @@
 
     <div id="game-page">
         <div id="time-bar"></div>
+        <div id="room-id"></div>
         <table class="table">
         <thead>
             <tr>
@@ -55,6 +56,7 @@ const loginPage = document.getElementById("login-page");
 const gamePage = document.getElementById("game-page");
 const toast = document.getElementById("toast");
 const timeBar = document.getElementById("time-bar");
+const roomId = document.getElementById("room-id");
 
 const toggleDOM = (dom, show) => {
     if (show == true) {
@@ -229,6 +231,10 @@ socket.on('login result', data => {
     } else {
         toggleDOM(loginPage, false);
         toggleDOM(gamePage, true);
+        while (roomId.firstChild) {
+            roomId.removeChild(roomId.firstChild);
+        }
+        roomId.appendChild(document.createTextNode("房间号：" + data.roomId));
         rerenderGameTable();
     }
 });
