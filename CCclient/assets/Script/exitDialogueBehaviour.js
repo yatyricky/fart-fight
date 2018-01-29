@@ -21,6 +21,7 @@ cc.Class({
     },
 
     onLeavePressed() {
+        this.gm.startSpinner();
         this.gm.playerLeave();
     }
 

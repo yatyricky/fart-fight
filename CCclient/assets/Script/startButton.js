@@ -21,6 +21,7 @@ cc.Class({
         var roomId = this.inputRoomId.getComponent(cc.EditBox).string;
         console.log(`name = ${name} roomId = ${roomId}`);
         if (name.length > 0) {
+            this.gm.startSpinner();
             this.gm.emit(reqs.LOGIN, {
                 name: name,
                 roomId: roomId
