@@ -1,6 +1,7 @@
 window.reqs = {
     LOGIN: 'login',
     LEAVE: 'leave',
+    CLOSE_RES: 'close result',
     READY: 'ready',
     CHARGE: 'charge',
     SHOCK: 'shock',

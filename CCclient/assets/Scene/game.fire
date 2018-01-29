@@ -2889,6 +2889,9 @@
     "playerAct": {
       "__id__": 55
     },
+    "playerFace": {
+      "__id__": 41
+    },
     "waitNode": {
       "__id__": 44
     },
@@ -2915,6 +2918,9 @@
     },
     "p5Node": {
       "__id__": 71
+    },
+    "gameSceneNode": {
+      "__id__": 2
     }
   },
   {
@@ -4500,6 +4506,9 @@
     "playerAct": {
       "__id__": 106
     },
+    "playerFace": {
+      "__id__": 92
+    },
     "waitNode": {
       "__id__": 95
     },
@@ -4526,6 +4535,9 @@
     },
     "p5Node": {
       "__id__": 122
+    },
+    "gameSceneNode": {
+      "__id__": 2
     }
   },
   {
@@ -6111,6 +6123,9 @@
     "playerAct": {
       "__id__": 157
     },
+    "playerFace": {
+      "__id__": 143
+    },
     "waitNode": {
       "__id__": 146
     },
@@ -6137,6 +6152,9 @@
     },
     "p5Node": {
       "__id__": 173
+    },
+    "gameSceneNode": {
+      "__id__": 2
     }
   },
   {
@@ -8984,6 +9002,9 @@
     "playerAct": {
       "__id__": 210
     },
+    "playerFace": {
+      "__id__": 194
+    },
     "waitNode": {
       "__id__": 197
     },
@@ -9010,6 +9031,9 @@
     },
     "p5Node": {
       "__id__": 226
+    },
+    "gameSceneNode": {
+      "__id__": 2
     }
   },
   {
@@ -10743,6 +10767,24 @@
     },
     "p3": {
       "__id__": 136
+    },
+    "faceReady": {
+      "__uuid__": "ae19f5b5-8a22-496b-9ed3-6666400e0fc5"
+    },
+    "faceDied": {
+      "__uuid__": "af37d011-d1c0-4bec-8a2d-2c7c2b3d3a66"
+    },
+    "faceCharge": {
+      "__uuid__": "d069a29f-0203-4986-be23-d8098ab6c827"
+    },
+    "faceShock": {
+      "__uuid__": "bdc97c77-17fe-420a-84ba-3fa0735c7ec6"
+    },
+    "faceBlock": {
+      "__uuid__": "850800e9-74cc-4e60-83cb-d2bb9d28bbf5"
+    },
+    "faceNuke": {
+      "__uuid__": "3c4ea365-2e40-4739-a267-2016b856e3f5"
     }
   }
 ]

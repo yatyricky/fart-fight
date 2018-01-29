@@ -1,13 +1,3 @@
-// Learn cc.Class:
-//  - [Chinese] http://www.cocos.com/docs/creator/scripting/class.html
-//  - [English] http://www.cocos2d-x.org/docs/editors_and_tools/creator-chapters/scripting/class/index.html
-// Learn Attribute:
-//  - [Chinese] http://www.cocos.com/docs/creator/scripting/reference/attributes.html
-//  - [English] http://www.cocos2d-x.org/docs/editors_and_tools/creator-chapters/scripting/reference/attributes/index.html
-// Learn life-cycle callbacks:
-//  - [Chinese] http://www.cocos.com/docs/creator/scripting/life-cycle-callbacks.html
-//  - [English] http://www.cocos2d-x.org/docs/editors_and_tools/creator-chapters/scripting/life-cycle-callbacks/index.html
-
 cc.Class({
     extends: cc.Component,
 
@@ -17,6 +7,10 @@ cc.Class({
             type: cc.Node
         },
         playerAct: {
+            default: null,
+            type: cc.Node
+        },
+        playerFace: {
             default: null,
             type: cc.Node
         },
@@ -56,9 +50,11 @@ cc.Class({
             default: null,
             type: cc.Node
         },
+        gameSceneNode: {
+            default: null,
+            type: cc.Node
+        }
     },
-
-    // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
         this.gm = cc.find('gameManager').getComponent('gameManager');
@@ -70,6 +66,7 @@ cc.Class({
         this.powerNodes.push(this.p5Node);
 
         this.power = 0;
+        this.actFace = null;
     },
 
     setName (val) {
@@ -77,6 +74,7 @@ cc.Class({
     },
 
     setAct(val) {
+        this.actFace = val;
         let act = "";
         switch (val) {
             case 'charge':
@@ -125,6 +123,27 @@ cc.Class({
                 break;
             default:
                 break;
+        }
+
+        // set face
+        const faceSprite = this.playerFace.getComponent(cc.Sprite);
+        const gameSceneBehaviour = this.gameSceneNode.getComponent('gameScene');
+        if (state == 'wait' || state == 'ready') {
+            faceSprite.spriteFrame = gameSceneBehaviour.faceReady;
+        } else if (state == 'died') {
+            faceSprite.spriteFrame = gameSceneBehaviour.faceDied;
+        } else {
+            if (this.actFace == 'charge') {
+                faceSprite.spriteFrame = gameSceneBehaviour.faceCharge;
+            } else if (this.actFace == 'shock') {
+                faceSprite.spriteFrame = gameSceneBehaviour.faceShock;
+            } else if (this.actFace == 'block') {
+                faceSprite.spriteFrame = gameSceneBehaviour.faceBlock;
+            } else if (this.actFace == 'nuke') {
+                faceSprite.spriteFrame = gameSceneBehaviour.faceNuke;
+            } else {
+                faceSprite.spriteFrame = gameSceneBehaviour.faceReady;
+            }
         }
     },
 

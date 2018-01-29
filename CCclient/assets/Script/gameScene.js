@@ -33,6 +33,30 @@ cc.Class({
         p3: {
             default: null,
             type: cc.Node
+        },
+        faceReady: {
+            default: null,
+            type: cc.SpriteFrame
+        },
+        faceDied: {
+            default: null,
+            type: cc.SpriteFrame
+        },
+        faceCharge: {
+            default: null,
+            type: cc.SpriteFrame
+        },
+        faceShock: {
+            default: null,
+            type: cc.SpriteFrame
+        },
+        faceBlock: {
+            default: null,
+            type: cc.SpriteFrame
+        },
+        faceNuke: {
+            default: null,
+            type: cc.SpriteFrame
         }
     },
 
@@ -49,7 +73,7 @@ cc.Class({
         for (let i = 0; i < this.otherPlayers.length; i++) {
             this.otherPlayers[i].node.active = false;
         }
-        
+
         this.gm.setGameScene(this);
     },
     
@@ -73,9 +97,9 @@ cc.Class({
                     playerBehaviourObject.node.active = true;
                 }
                 playerBehaviourObject.setName(element.name);
+                playerBehaviourObject.setPower(element.power);
                 playerBehaviourObject.setAct(element.act);
                 playerBehaviourObject.setState(element.state);
-                playerBehaviourObject.setPower(element.power);
             }
             while (otherIndex < 3) {
                 this.otherPlayers[otherIndex++].node.active = false;
