@@ -39,7 +39,7 @@ cc.Class({
         p3: {
             default: null,
             type: cc.Node
-        },
+        }
     },
 
     // LIFE-CYCLE CALLBACKS:

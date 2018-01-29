@@ -50,6 +50,12 @@ cc.Class({
 
     setGameScene (gameScene) {
         this.gameScene = gameScene;
+    },
+
+    playerLeave() {
+        this.roomId = -1;
+        cc.director.loadScene("login");
+        this.emit('leave', this.localName);
     }
 
 });

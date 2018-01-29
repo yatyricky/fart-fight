@@ -17,7 +17,7 @@
         "__id__": 2
       },
       {
-        "__id__": 22
+        "__id__": 23
       }
     ],
     "_tag": -1,
@@ -79,6 +79,9 @@
     "_components": [
       {
         "__id__": 21
+      },
+      {
+        "__id__": 22
       }
     ],
     "_prefab": null,
@@ -844,6 +847,18 @@
     "_fitHeight": true
   },
   {
+    "__type__": "f5afbqYRyJFFaCAckHe9anV",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "playerNameNode": {
+      "__id__": 9
+    }
+  },
+  {
     "__type__": "cc.Node",
     "_name": "gameManager",
     "_objFlags": 0,
@@ -855,7 +870,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 23
+        "__id__": 24
       }
     ],
     "_prefab": null,
@@ -900,7 +915,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 22
+      "__id__": 23
     },
     "_enabled": true
   }
