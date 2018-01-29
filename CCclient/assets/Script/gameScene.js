@@ -1,13 +1,3 @@
-// Learn cc.Class:
-//  - [Chinese] http://www.cocos.com/docs/creator/scripting/class.html
-//  - [English] http://www.cocos2d-x.org/docs/editors_and_tools/creator-chapters/scripting/class/index.html
-// Learn Attribute:
-//  - [Chinese] http://www.cocos.com/docs/creator/scripting/reference/attributes.html
-//  - [English] http://www.cocos2d-x.org/docs/editors_and_tools/creator-chapters/scripting/reference/attributes/index.html
-// Learn life-cycle callbacks:
-//  - [Chinese] http://www.cocos.com/docs/creator/scripting/life-cycle-callbacks.html
-//  - [English] http://www.cocos2d-x.org/docs/editors_and_tools/creator-chapters/scripting/life-cycle-callbacks/index.html
-
 cc.Class({
     extends: cc.Component,
 
@@ -21,6 +11,10 @@ cc.Class({
             type: cc.Node
         },
         timerNode: {
+            default: null,
+            type: cc.Node
+        },
+        battleResultNode: {
             default: null,
             type: cc.Node
         },
@@ -42,8 +36,6 @@ cc.Class({
         }
     },
 
-    // LIFE-CYCLE CALLBACKS:
-
     onLoad () {
         this.gm = cc.find('gameManager').getComponent('gameManager');
         this.roomIdUpdated = false;
@@ -57,7 +49,7 @@ cc.Class({
         for (let i = 0; i < this.otherPlayers.length; i++) {
             this.otherPlayers[i].node.active = false;
         }
-
+        
         this.gm.setGameScene(this);
     },
     
@@ -107,5 +99,9 @@ cc.Class({
     runTimer() {
         this.timer.countDown();
         this.localPlayerBehaviour.blockNode.getComponent(cc.Toggle).check();
+    },
+
+    showBattleResult(data) {
+        this.battleResultNode.getComponent('battleResultBehaviour').show(data);
     }
 });

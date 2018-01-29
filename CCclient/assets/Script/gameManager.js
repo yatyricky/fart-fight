@@ -42,6 +42,13 @@ cc.Class({
                 this.gameScene.runTimer();
             }
         });
+
+        this.socket.on(recs.GAME_END, (data) => {
+            console.log(`>>game end received`);
+            if (this.gameScene != null) {
+                this.gameScene.showBattleResult(data);
+            }
+        });
     },
 
     emit (ename, payload) {
@@ -54,8 +61,9 @@ cc.Class({
 
     playerLeave() {
         this.roomId = -1;
+        this.gameScene = null;
         cc.director.loadScene("login");
-        this.emit('leave', this.localName);
+        this.emit(reqs.LEAVE, this.localName);
     }
 
 });
