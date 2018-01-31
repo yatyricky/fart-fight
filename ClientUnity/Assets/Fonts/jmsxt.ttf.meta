@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: c485041d48fbcc64db8d17cb09e46c91
+timeCreated: 1517306584
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: JIANMENGJW
+  fontNames:
+  - JIANMENGJW
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
