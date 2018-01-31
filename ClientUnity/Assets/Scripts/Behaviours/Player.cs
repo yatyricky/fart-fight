@@ -7,19 +7,20 @@ public class Player : MonoBehaviour
 {
     public Text NameObject;
     public Text ActObject;
-    public GameObject FaceObject;
+    public Image PlayerFace;
     public GameObject WaitObject;
     public GameObject ReadyObject;
     public GameObject PlayObject;
     public GameObject DiedObject;
     public GameObject[] PowerObject;
 
-    private int _power;
+    [HideInInspector] public int Power;
+
     private string _actFace;
 
     private void Awake()
     {
-        _power = 0;
+        Power = 0;
         _actFace = "";
     }
 
@@ -30,7 +31,7 @@ public class Player : MonoBehaviour
 
     internal void SetPower(int val)
     {
-        _power = val;
+        Power = val;
         int i = 0;
         while (i < val && i < Configs.NUKE_POWER)
         {
@@ -99,37 +100,36 @@ public class Player : MonoBehaviour
         }
 
         // set face
-        SpriteRenderer faceSprite = FaceObject.GetComponent<SpriteRenderer>();
         GameScene gs = GameManager.Instance.GameSceneBehaviour;
         if (state.Equals("wait") || state.Equals("ready"))
         {
-            faceSprite.sprite = gs.FaceReady;
+            PlayerFace.sprite = gs.FaceReady;
         }
         else if (state.Equals("died"))
         {
-            faceSprite.sprite = gs.FaceDied;
+            PlayerFace.sprite = gs.FaceDied;
         }
         else
         {
             if (_actFace.Equals("charge"))
             {
-                faceSprite.sprite = gs.FaceCharge;
+                PlayerFace.sprite = gs.FaceCharge;
             }
             else if (_actFace.Equals("shock"))
             {
-                faceSprite.sprite = gs.FaceShock;
+                PlayerFace.sprite = gs.FaceShock;
             }
             else if (_actFace.Equals("block"))
             {
-                faceSprite.sprite = gs.FaceBlock;
+                PlayerFace.sprite = gs.FaceBlock;
             }
             else if (_actFace.Equals("nuke"))
             {
-                faceSprite.sprite = gs.FaceNuke;
+                PlayerFace.sprite = gs.FaceNuke;
             }
             else
             {
-                faceSprite.sprite = gs.FaceReady;
+                PlayerFace.sprite = gs.FaceReady;
             }
         }
     }

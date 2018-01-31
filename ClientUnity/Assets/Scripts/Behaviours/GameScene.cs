@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using System;
 using System.Linq;
+using System.Collections.Generic;
 
 public class GameScene : MonoBehaviour
 {
@@ -33,7 +34,7 @@ public class GameScene : MonoBehaviour
         _networkSpinner = NetworkSpinnerObject.GetComponent<NetworkSpinner>();
         _gm = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
         _gm.GameSceneBehaviour = this;
-
+        _gameTimer = GameTimerObject.GetComponent<GameTimer>();
         _roomIdUpdated = false;
     }
 
@@ -98,5 +99,16 @@ public class GameScene : MonoBehaviour
     {
         RefreshPlayers();
         UpdateRoomId();
+    }
+
+    public void RunTimer()
+    {
+        _gameTimer.CountDown();
+        LocalPlayerObject.GetComponent<LocalPlayer>().BlockButton.GetComponent<ToggleTuner>().OnClicked();
+    }
+
+    internal void ShowBattleResult(List<PlayerScore> list)
+    {
+        BattleResultObject.GetComponent<BattleResult>().Show(list);
     }
 }

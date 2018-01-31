@@ -529,7 +529,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: 0db37e6cf81a5ce41bed6eaf31722914, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -749,7 +749,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NameObject: {fileID: 114630878732375374}
   ActObject: {fileID: 114329270289112222}
-  FaceObject: {fileID: 1625488806994890}
+  PlayerFace: {fileID: 114340949736663538}
   WaitObject: {fileID: 1502353239256678}
   ReadyObject: {fileID: 1708724398547556}
   PlayObject: {fileID: 1376852809327034}
@@ -760,6 +760,7 @@ MonoBehaviour:
   - {fileID: 1980926902153152}
   - {fileID: 1584326944632596}
   - {fileID: 1009729916088116}
+  Power: 0
 --- !u!114 &114997259684706090
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -12,13 +12,13 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector] public List<PlayerData> PlayerDatas;
     [HideInInspector] public LoginScene LoginSceneBehaviour;
+
     [HideInInspector] public GameScene GameSceneBehaviour;
     [HideInInspector] public int LocalRoomId;
     [HideInInspector] public string LocalName;
 
     private SocketIOComponent _socket;
     private Queue<EmitMessage> _queuedEmits;
-
 
     private void Awake()
     {
@@ -95,9 +95,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("login success");
             LocalRoomId = (int)e.data.GetField("roomId").n;
-            Scene s = SceneManager.GetSceneByBuildIndex(1);
-            SceneManager.LoadScene(1);
-            SceneManager.SetActiveScene(s);
+            SceneManager.LoadScene("Game");
         }
         else
         {
@@ -116,12 +114,30 @@ public class GameManager : MonoBehaviour
 
     private void RunTimerCallback(SocketIOEvent e)
     {
-        Debug.Log(">> run timer: " + e.data.ToString());
+        Debug.Log(">> run timer");
+        if (GameSceneBehaviour != null)
+        {
+            GameSceneBehaviour.RunTimer();
+        }
     }
 
     private void GameEndCallback(SocketIOEvent e)
     {
-        Debug.Log(">> game end: " + e.data.ToString());
+        Debug.Log(">> game end" + e.data.ToString());
+        if (GameSceneBehaviour != null)
+        {
+            List<JSONObject> rawList = e.data.GetField("data").list;
+            List<PlayerScore> list = new List<PlayerScore>();
+            foreach (JSONObject obj in rawList)
+            {
+                list.Add(new PlayerScore
+                {
+                    Name = obj.GetField("name").str,
+                    Score = (int)obj.GetField("score").n
+                });
+            }
+            GameSceneBehaviour.ShowBattleResult(list);
+        }
     }
 
     public void Emit(string ename, JSONObject data)
@@ -145,6 +161,18 @@ public class GameManager : MonoBehaviour
             Debug.Log("socket initiated! emit: " + ename + " => " + data.ToString());
             _socket.Emit(ename, data);
         }
+    }
+
+    internal void PlayerLeave()
+    {
+        LocalRoomId = -1;
+        GameSceneBehaviour = null;
+
+        JSONObject data = JSONObject.Create();
+        data.AddField("name", LocalName);
+        Emit(IOTypes.E_LEAVE, data);
+
+        SceneManager.LoadScene("Login");
     }
 
     class EmitMessage
