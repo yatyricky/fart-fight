@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using GooglePlayGames;
 
 public class StartButton : MonoBehaviour
 {
@@ -24,4 +25,16 @@ public class StartButton : MonoBehaviour
         }
     }
 
+#if UNITY_ANDROID
+    public void OnLoginGoogle()
+    {
+        LoginScene.DispatchInitiateSpinner();
+        Debug.Log("[GP]Start to Auth user with button");
+        PlayGamesPlatform.Instance.localUser.Authenticate((bool success) =>
+        {
+            Debug.Log("[GP]button action, User login " + success);
+            LoginScene.DispatchLoginGooglePlay(success);
+        });
+    }
+#endif
 }

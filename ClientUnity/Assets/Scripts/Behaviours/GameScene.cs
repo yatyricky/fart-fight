@@ -85,9 +85,9 @@ public class GameScene : MonoBehaviour
         }
     }
 
-    internal void HaltSpinner()
+    public static void HaltSpinner()
     {
-        _networkSpinner.Halt();
+        GameManager.Instance.GameSceneBehaviour._networkSpinner.Halt();
     }
 
     internal void InitiateSpinner()

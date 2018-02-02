@@ -3,6 +3,8 @@ using SocketIO;
 using System.Collections.Generic;
 using System;
 using UnityEngine.SceneManagement;
+using GooglePlayGames;
+using UnityEngine.SocialPlatforms;
 
 public class GameManager : MonoBehaviour
 {
@@ -46,7 +48,20 @@ public class GameManager : MonoBehaviour
         _socket.On(IOTypes.R_LOGIN_RESULT, LoginResultCallback);
         _socket.On(IOTypes.R_RUN_TIMER, RunTimerCallback);
         _socket.On(IOTypes.R_GAME_END, GameEndCallback);
+
+#if UNITY_ANDROID
+        // Google play login
+        LoginScene.DispatchInitiateSpinner();
+        Debug.Log("[GP]Start to Auth user");
+        PlayGamesPlatform.Instance.localUser.Authenticate((bool success) =>
+        {
+            Debug.Log("[GP]User login " + success);
+            LoginScene.DispatchLoginGooglePlay(success);
+        });
+#endif
     }
+
+    #region SOCKET FUNCTIONS
 
     private void LinkEstablishedCallback(SocketIOEvent e)
     {
@@ -56,10 +71,7 @@ public class GameManager : MonoBehaviour
             EmitMessage em = _queuedEmits.Dequeue();
             Emit(em._ename, em._data);
         }
-        if (LoginSceneBehaviour != null)
-        {
-            LoginSceneBehaviour.HaltSpinner();
-        }
+        LoginScene.DispatchHaltSpinner();
     }
 
     private void CorrectNameCallback(SocketIOEvent e)
@@ -140,15 +152,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    class EmitMessage
+    {
+        public string _ename;
+        public JSONObject _data;
+    }
+
     public void Emit(string ename, JSONObject data)
     {
         if (!_socket.IsConnected)
         {
             Debug.Log("socket not initiated, queueing");
-            if (LoginSceneBehaviour != null)
-            {
-                LoginSceneBehaviour.InitiateSpinner();
-            }
+            LoginScene.DispatchInitiateSpinner();
             _queuedEmits.Enqueue(new EmitMessage
             {
                 _ename = ename,
@@ -163,6 +178,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    #endregion
+
     internal void PlayerLeave()
     {
         LocalRoomId = -1;
@@ -173,12 +190,6 @@ public class GameManager : MonoBehaviour
         Emit(IOTypes.E_LEAVE, data);
 
         SceneManager.LoadScene("Login");
-    }
-
-    class EmitMessage
-    {
-        public string _ename;
-        public JSONObject _data;
     }
 
 }

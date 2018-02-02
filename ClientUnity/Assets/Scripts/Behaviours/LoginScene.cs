@@ -1,9 +1,14 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class LoginScene : MonoBehaviour
 {
+    
     public GameObject NetworkSpinnerObject;
+    public GameObject GooglePlayLoginButton;
 
+    private static Queue<Action> ReceivedActions = new Queue<Action>();
     private NetworkSpinner _networkSpinner;
     private GameManager _gm;
 
@@ -12,15 +17,55 @@ public class LoginScene : MonoBehaviour
         _networkSpinner = NetworkSpinnerObject.GetComponent<NetworkSpinner>();
         _gm = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
         _gm.LoginSceneBehaviour = this;
+
+#if !UNITY_ANDROID || UNITY_EDITOR
+        GooglePlayLoginButton.SetActive(false);
+#endif
     }
 
-    internal void HaltSpinner()
+    public static void DispatchInitiateSpinner()
     {
-        _networkSpinner.Halt();
+        ReceivedActions.Enqueue(() =>
+        {
+            GameManager.Instance.LoginSceneBehaviour._networkSpinner.InitiateSpin();
+        });
     }
 
-    internal void InitiateSpinner()
+    public static void DispatchHaltSpinner()
     {
-        _networkSpinner.InitiateSpin();
+        ReceivedActions.Enqueue(() =>
+        {
+            GameManager.Instance.LoginSceneBehaviour._networkSpinner.Halt();
+        });
     }
+
+    private void Update()
+    {
+        while (ReceivedActions.Count > 0)
+        {
+            ReceivedActions.Dequeue()();
+        }
+    }
+
+#if UNITY_ANDROID
+    internal static void DispatchLoginGooglePlay(bool success)
+    {
+        ReceivedActions.Enqueue(() =>
+        {
+            Debug.Log("[GP]Login Google Play callback");
+            LoginScene self = GameManager.Instance.LoginSceneBehaviour;
+            self._networkSpinner.Halt();
+            if (success)
+            {
+                // Authenticated
+                self.GooglePlayLoginButton.SetActive(false);
+            }
+            else
+            {
+                // Rejected
+                self.GooglePlayLoginButton.SetActive(true);
+            }
+        });
+    }
+#endif
 }
