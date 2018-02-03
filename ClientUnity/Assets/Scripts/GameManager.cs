@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
 #if UNITY_ANDROID
         // Google play login
         LoginScene.DispatchInitiateSpinner();
+        LoginScene.DispatchToast("Signing in with Google Games");
         Debug.Log("[GP]Start to Auth user");
         PlayGamesPlatform.Instance.localUser.Authenticate((bool success) =>
         {
@@ -59,6 +60,14 @@ public class GameManager : MonoBehaviour
             LoginScene.DispatchLoginGooglePlay(success);
         });
 #endif
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            LoginScene.DispatchHaltSpinner();
+        }
     }
 
     #region SOCKET FUNCTIONS
@@ -115,11 +124,13 @@ public class GameManager : MonoBehaviour
             if (reason.Equals("room is full"))
             {
                 Debug.Log("room full");
+                LoginScene.DispatchToast("Lift is full");
 
             }
             else if (reason.Equals("no such room"))
             {
                 Debug.Log("no such room");
+                LoginScene.DispatchToast("No such lift");
             }
         }
     }
@@ -164,6 +175,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("socket not initiated, queueing");
             LoginScene.DispatchInitiateSpinner();
+            LoginScene.DispatchToast("Connecting to server");
             _queuedEmits.Enqueue(new EmitMessage
             {
                 _ename = ename,
