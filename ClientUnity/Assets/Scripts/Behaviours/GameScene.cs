@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using GooglePlayGames;
 
 public class GameScene : MonoBehaviour
 {
@@ -67,6 +68,7 @@ public class GameScene : MonoBehaviour
                 playerBehaviour.SetPower(element.Power);
                 playerBehaviour.SetAct(element.Act);
                 playerBehaviour.SetState(element.State);
+                playerBehaviour.LoadAvatar(element.AvatarURL);
             }
             while (otherIndex < 3)
             {

@@ -45,16 +45,19 @@ public class LoginScene : MonoBehaviour
             JSONObject data = JSONObject.Create();
             string loginMethod = LoginMethod.DEVICE;
             string pid = SystemInfo.deviceUniqueIdentifier;
+            string avatarURL = "";
 #if UNITY_ANDROID
             if (PlayGamesPlatform.Instance.IsAuthenticated())
             {
                 loginMethod = LoginMethod.GOOGLE_GAMES;
                 pid = PlayGamesPlatform.Instance.localUser.id;
+                avatarURL = ((PlayGamesUserProfile)PlayGamesPlatform.Instance.localUser).AvatarURL;
             }
 #endif
             data.AddField("method", loginMethod);
             data.AddField("pid", pid);
             data.AddField("name", InputPlayerName.text);
+            data.AddField("avatar", avatarURL);
             data.AddField("roomId", InputRoomId.text);
             GameManager.Instance.LoginMethod = loginMethod;
             GameManager.Instance.LoginPid = pid;

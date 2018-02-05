@@ -4460,6 +4460,7 @@ MonoBehaviour:
   NameObject: {fileID: 937264659}
   ActObject: {fileID: 402751236}
   PlayerFace: {fileID: 638361715}
+  Avatar: {fileID: 46051025}
   WaitObject: {fileID: 1484993703}
   ReadyObject: {fileID: 1886072032}
   PlayObject: {fileID: 1698136928}

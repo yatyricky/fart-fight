@@ -911,6 +911,7 @@ MonoBehaviour:
   NameObject: {fileID: 114630878732375374}
   ActObject: {fileID: 114329270289112222}
   PlayerFace: {fileID: 114340949736663538}
+  Avatar: {fileID: 212892894238724216}
   WaitObject: {fileID: 1502353239256678}
   ReadyObject: {fileID: 1708724398547556}
   PlayObject: {fileID: 1376852809327034}

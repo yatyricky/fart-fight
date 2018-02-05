@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
@@ -6,6 +8,7 @@ public class Player : MonoBehaviour
     public Text NameObject;
     public Text ActObject;
     public Image PlayerFace;
+    public SpriteRenderer Avatar;
     public GameObject WaitObject;
     public GameObject ReadyObject;
     public GameObject PlayObject;
@@ -15,11 +18,13 @@ public class Player : MonoBehaviour
     [HideInInspector] public int Power;
 
     private string _actFace;
+    private string urlToLoad;
 
     private void Awake()
     {
         Power = 0;
         _actFace = "";
+        urlToLoad = "";
     }
 
     internal void SetName(string name)
@@ -130,5 +135,23 @@ public class Player : MonoBehaviour
                 PlayerFace.sprite = gs.FaceReady;
             }
         }
+    }
+
+    internal void LoadAvatar(string avatarURL)
+    {
+        if (!urlToLoad.Equals(avatarURL) && !avatarURL.Equals(""))
+        {
+            urlToLoad = avatarURL;
+            StartCoroutine(DownloadAvatarThread());
+        }
+    }
+
+    private IEnumerator DownloadAvatarThread()
+    {
+        WWW www = new WWW(urlToLoad);
+        Debug.Log("loadingggg");
+        yield return www;
+        Avatar.sprite = Sprite.Create(www.texture, new Rect(0.0f, 0.0f, www.texture.width, www.texture.height), new Vector2(0.5f, 0.5f), 100.0f);
+        Debug.Log("Loading node dnoneee!!!");
     }
 }

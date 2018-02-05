@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public string LocalName;
     [HideInInspector] public string LoginMethod;
     [HideInInspector] public string LoginPid;
+    [HideInInspector] public string AvatarURL;
 
     private SocketIOComponent _socket;
     private Queue<EmitMessage> _queuedEmits;
@@ -100,6 +101,7 @@ public class GameManager : MonoBehaviour
                 LoginMethod = obj.GetField("loginMethod").str,
                 Pid = obj.GetField("pid").str,
                 Name = obj.GetField("name").str,
+                AvatarURL = obj.GetField("avatar").str,
                 Power = (int)obj.GetField("power").n,
                 Act = obj.GetField("act").str,
                 Face = obj.GetField("face").str,
