@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.UI;
 using System;
 using System.Linq;
@@ -23,19 +22,11 @@ public class GameScene : MonoBehaviour
     public Sprite FaceBlock;
     public Sprite FaceNuke;
 
-    private NetworkSpinner _networkSpinner;
-    private GameTimer _gameTimer;
-    private GameManager _gm;
-
-    private bool _roomIdUpdated;
+    private static Queue<Action> ReceivedActions = new Queue<Action>();
 
     private void Awake()
     {
-        _networkSpinner = NetworkSpinnerObject.GetComponent<NetworkSpinner>();
-        _gm = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
-        _gm.GameSceneBehaviour = this;
-        _gameTimer = GameTimerObject.GetComponent<GameTimer>();
-        _roomIdUpdated = false;
+        GameManager.Instance.GameSceneBehaviour = this;
     }
 
     private void Start()
@@ -43,17 +34,26 @@ public class GameScene : MonoBehaviour
         RefreshPlayers();
     }
 
+    private void Update()
+    {
+        RefreshPlayers();
+        while (ReceivedActions.Count > 0)
+        {
+            ReceivedActions.Dequeue()();
+        }
+    }
+
     private void RefreshPlayers()
     {
-        if (_gm.PlayerDatas.Count > 0)
+        if (GameManager.Instance.PlayerDatas.Count > 0)
         {
             Debug.Log("should update players");
             int otherIndex = 0;
-            for (int i = 0; i < _gm.PlayerDatas.Count; i++)
+            for (int i = 0; i < GameManager.Instance.PlayerDatas.Count; i++)
             {
-                PlayerData element = _gm.PlayerDatas.ElementAt(i);
+                PlayerData element = GameManager.Instance.PlayerDatas.ElementAt(i);
                 Player playerBehaviour;
-                if (element.Name.Equals(_gm.LocalName))
+                if (element.Name.Equals(GameManager.Instance.LocalName))
                 {
                     playerBehaviour = LocalPlayerObject.GetComponent<Player>();
                     LocalPlayerObject.GetComponent<LocalPlayer>().UpdateShockButton(element.Power);
@@ -72,43 +72,35 @@ public class GameScene : MonoBehaviour
             {
                 OtherPlayerObjects[otherIndex++].SetActive(false);
             }
-            _gm.PlayerDatas.Clear();
+            GameManager.Instance.PlayerDatas.Clear();
         }
     }
 
-    private void UpdateRoomId()
+    internal static void DispatchUpdateRoomId(int roomId)
     {
-        if (_roomIdUpdated == false && _gm.LocalRoomId != -1)
+        ReceivedActions.Enqueue(() =>
         {
-            _roomIdUpdated = true;
-            RoomIdObject.text = _gm.LocalRoomId.ToString();
-        }
+            GameScene self = GameManager.Instance.GameSceneBehaviour;
+            self.RoomIdObject.text = roomId.ToString();
+        });
     }
 
-    public static void HaltSpinner()
+    internal static void DispatchShowBattleResult(List<PlayerScore> list)
     {
-        GameManager.Instance.GameSceneBehaviour._networkSpinner.Halt();
+        ReceivedActions.Enqueue(() =>
+        {
+            GameScene self = GameManager.Instance.GameSceneBehaviour;
+            self.BattleResultObject.GetComponent<BattleResult>().Show(list);
+        });
     }
 
-    internal void InitiateSpinner()
+    internal static void DispatchRunTimer()
     {
-        _networkSpinner.InitiateSpin();
-    }
-
-    private void Update()
-    {
-        RefreshPlayers();
-        UpdateRoomId();
-    }
-
-    public void RunTimer()
-    {
-        _gameTimer.CountDown();
-        LocalPlayerObject.GetComponent<LocalPlayer>().BlockButton.GetComponent<ToggleTuner>().OnClicked();
-    }
-
-    internal void ShowBattleResult(List<PlayerScore> list)
-    {
-        BattleResultObject.GetComponent<BattleResult>().Show(list);
+        ReceivedActions.Enqueue(() =>
+        {
+            GameScene self = GameManager.Instance.GameSceneBehaviour;
+            self.GameTimerObject.GetComponent<GameTimer>().CountDown();
+            self.LocalPlayerObject.GetComponent<LocalPlayer>().BlockButton.GetComponent<ToggleTuner>().OnClicked();
+        });
     }
 }

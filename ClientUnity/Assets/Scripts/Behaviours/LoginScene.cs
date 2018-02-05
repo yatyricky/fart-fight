@@ -6,25 +6,26 @@ using UnityEngine.UI;
 
 public class LoginScene : MonoBehaviour
 {
-    public GameObject NetworkSpinnerObject;
-    public GameObject ToastObject;
     public GameObject GooglePlayLoginButton;
     public InputField InputPlayerName;
     public Text InputRoomId;
 
     private static Queue<Action> ReceivedActions = new Queue<Action>();
-    private NetworkSpinner _networkSpinner;
-    private GameManager _gm;
 
     private void Awake()
     {
-        _networkSpinner = NetworkSpinnerObject.GetComponent<NetworkSpinner>();
-        _gm = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
-        _gm.LoginSceneBehaviour = this;
-
+        GameManager.Instance.LoginSceneBehaviour = this;
 #if !UNITY_ANDROID || UNITY_EDITOR
         GooglePlayLoginButton.SetActive(false);
 #endif
+    }
+
+    private void Update()
+    {
+        while (ReceivedActions.Count > 0)
+        {
+            ReceivedActions.Dequeue()();
+        }
     }
 
     public void OnClickStart()
@@ -38,15 +39,15 @@ public class LoginScene : MonoBehaviour
         }
         else
         {
-            DispatchToast("Please enter your name");
+            GameManager.Instance.ShowToast("Please enter your name");
         }
     }
 
 #if UNITY_ANDROID
     public void OnLoginGoogle()
     {
-        DispatchInitiateSpinner();
-        DispatchToast("Signing in with Google Games");
+        GameManager.Instance.InitiateSpin(SpinReason.SIGN_IN_GOOGLE_GAME);
+        GameManager.Instance.ShowToast("Signing in with Google Games");
         Debug.Log("[GP]Start to Auth user with button");
         PlayGamesPlatform.Instance.localUser.Authenticate((bool success) =>
         {
@@ -54,48 +55,14 @@ public class LoginScene : MonoBehaviour
             LoginScene.DispatchLoginGooglePlay(success);
         });
     }
-#endif
 
-    public static void DispatchInitiateSpinner()
-    {
-        ReceivedActions.Enqueue(() =>
-        {
-            GameManager.Instance.LoginSceneBehaviour._networkSpinner.InitiateSpin();
-        });
-    }
-
-    public static void DispatchHaltSpinner()
-    {
-        ReceivedActions.Enqueue(() =>
-        {
-            GameManager.Instance.LoginSceneBehaviour._networkSpinner.Halt();
-        });
-    }
-
-    public static void DispatchToast(string message)
-    {
-        ReceivedActions.Enqueue(() =>
-        {
-            GameManager.Instance.LoginSceneBehaviour.ToastObject.GetComponent<Toast>().Show(message);
-        });
-    }
-
-    private void Update()
-    {
-        while (ReceivedActions.Count > 0)
-        {
-            ReceivedActions.Dequeue()();
-        }
-    }
-
-#if UNITY_ANDROID
     internal static void DispatchLoginGooglePlay(bool success)
     {
         ReceivedActions.Enqueue(() =>
         {
             Debug.Log("[GP]Login Google Play callback " + success);
             LoginScene self = GameManager.Instance.LoginSceneBehaviour;
-            self._networkSpinner.Halt();
+            GameManager.Instance.HaltSpinner();
             if (success)
             {
                 // Authenticated
@@ -110,4 +77,5 @@ public class LoginScene : MonoBehaviour
         });
     }
 #endif
+
 }

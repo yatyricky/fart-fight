@@ -1,18 +1,19 @@
-﻿using System;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
-public class NetworkSpinner : MonoBehaviour
+public class DedicatedSpinner : MonoBehaviour
 {
     public GameObject PointerObject;
+
+    [HideInInspector] public SpinReason Reason;
 
     private float _time;
     private bool _running;
 
-    public void InitiateSpin()
+    public void InitiateSpin(SpinReason reason)
     {
         _time = 0;
         _running = true;
+        Reason = reason;
         PointerObject.transform.eulerAngles = new Vector3(0f, 0f, 0f);
         gameObject.SetActive(true);
     }
