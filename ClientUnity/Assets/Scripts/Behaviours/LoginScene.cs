@@ -18,6 +18,16 @@ public class LoginScene : MonoBehaviour
 #if !UNITY_ANDROID || UNITY_EDITOR
         GooglePlayLoginButton.SetActive(false);
 #endif
+#if UNITY_ANDROID
+        if (PlayGamesPlatform.Instance.IsAuthenticated())
+        {
+            GooglePlayLoginButton.SetActive(false);
+        }
+#endif
+        if (GameManager.Instance.LocalName != null)
+        {
+            InputPlayerName.text = GameManager.Instance.LocalName;
+        }
     }
 
     private void Update()
@@ -33,8 +43,22 @@ public class LoginScene : MonoBehaviour
         if (InputPlayerName.text.Length > 0)
         {
             JSONObject data = JSONObject.Create();
+            string loginMethod = LoginMethod.DEVICE;
+            string pid = SystemInfo.deviceUniqueIdentifier;
+#if UNITY_ANDROID
+            if (PlayGamesPlatform.Instance.IsAuthenticated())
+            {
+                loginMethod = LoginMethod.GOOGLE_GAMES;
+                pid = PlayGamesPlatform.Instance.localUser.id;
+            }
+#endif
+            data.AddField("method", loginMethod);
+            data.AddField("pid", pid);
             data.AddField("name", InputPlayerName.text);
             data.AddField("roomId", InputRoomId.text);
+            GameManager.Instance.LoginMethod = loginMethod;
+            GameManager.Instance.LoginPid = pid;
+            GameManager.Instance.LocalName = InputPlayerName.text;
             GameManager.Instance.Emit(IOTypes.E_LOGIN, data);
         }
         else
@@ -52,7 +76,7 @@ public class LoginScene : MonoBehaviour
         PlayGamesPlatform.Instance.localUser.Authenticate((bool success) =>
         {
             Debug.Log("[GP]button action, User login " + success);
-            LoginScene.DispatchLoginGooglePlay(success);
+            DispatchLoginGooglePlay(success);
         });
     }
 

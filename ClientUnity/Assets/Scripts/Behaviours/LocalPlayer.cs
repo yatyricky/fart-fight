@@ -39,7 +39,8 @@ public class LocalPlayer : MonoBehaviour
     {
         Debug.Log("clicked ready");
         JSONObject data = JSONObject.Create();
-        data.AddField("name", GameManager.Instance.LocalName);
+        data.AddField("method", GameManager.Instance.LoginMethod);
+        data.AddField("pid", GameManager.Instance.LoginPid);
         GameManager.Instance.Emit(IOTypes.E_READY, data);
     }
 
@@ -47,7 +48,8 @@ public class LocalPlayer : MonoBehaviour
     {
         Debug.Log("clicked Charge");
         JSONObject data = JSONObject.Create();
-        data.AddField("name", GameManager.Instance.LocalName);
+        data.AddField("method", GameManager.Instance.LoginMethod);
+        data.AddField("pid", GameManager.Instance.LoginPid);
         GameManager.Instance.Emit(IOTypes.E_CHARGE, data);
     }
 
@@ -63,13 +65,15 @@ public class LocalPlayer : MonoBehaviour
         else if (playerBehaviour.Power >= Configs.NUKE_POWER)
         {
             JSONObject data = JSONObject.Create();
-            data.AddField("name", GameManager.Instance.LocalName);
+            data.AddField("method", GameManager.Instance.LoginMethod);
+            data.AddField("pid", GameManager.Instance.LoginPid);
             GameManager.Instance.Emit(IOTypes.E_NUKE, data);
         }
         else
         {
             JSONObject data = JSONObject.Create();
-            data.AddField("name", GameManager.Instance.LocalName);
+            data.AddField("method", GameManager.Instance.LoginMethod);
+            data.AddField("pid", GameManager.Instance.LoginPid);
             GameManager.Instance.Emit(IOTypes.E_SHOCK, data);
         }
     }
@@ -84,7 +88,8 @@ public class LocalPlayer : MonoBehaviour
     {
         Debug.Log("clicked Block");
         JSONObject data = JSONObject.Create();
-        data.AddField("name", GameManager.Instance.LocalName);
+        data.AddField("method", GameManager.Instance.LoginMethod);
+        data.AddField("pid", GameManager.Instance.LoginPid);
         GameManager.Instance.Emit(IOTypes.E_BLOCK, data);
     }
 

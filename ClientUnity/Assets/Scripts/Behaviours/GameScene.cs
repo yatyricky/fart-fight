@@ -53,7 +53,7 @@ public class GameScene : MonoBehaviour
             {
                 PlayerData element = GameManager.Instance.PlayerDatas.ElementAt(i);
                 Player playerBehaviour;
-                if (element.Name.Equals(GameManager.Instance.LocalName))
+                if (element.LoginMethod.Equals(GameManager.Instance.LoginMethod) && element.Pid.Equals(GameManager.Instance.LoginPid))
                 {
                     playerBehaviour = LocalPlayerObject.GetComponent<Player>();
                     LocalPlayerObject.GetComponent<LocalPlayer>().UpdateShockButton(element.Power);

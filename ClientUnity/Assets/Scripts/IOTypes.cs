@@ -10,7 +10,6 @@
     public static string E_NUKE = "nuke";
 
     public static string R_LINK_ESTABLISHED = "link established";
-    public static string R_CORRECT_NAME = "correct name";
     public static string R_UPDATE_PLAYERS = "update players";
     public static string R_LOGIN_RESULT = "login result";
     public static string R_RUN_TIMER = "run timer";

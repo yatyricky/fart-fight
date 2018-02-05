@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public GameScene GameSceneBehaviour;
     [HideInInspector] public List<PlayerData> PlayerDatas;
     [HideInInspector] public string LocalName;
+    [HideInInspector] public string LoginMethod;
+    [HideInInspector] public string LoginPid;
 
     private SocketIOComponent _socket;
     private Queue<EmitMessage> _queuedEmits;
@@ -38,16 +40,10 @@ public class GameManager : MonoBehaviour
         PlayerDatas = new List<PlayerData>();
     }
 
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
     void Start()
     {
         _socket = SocketIOObject.GetComponent<SocketIOComponent>();
         _socket.On(IOTypes.R_LINK_ESTABLISHED, LinkEstablishedCallback);
-        _socket.On(IOTypes.R_CORRECT_NAME, CorrectNameCallback);
         _socket.On(IOTypes.R_UPDATE_PLAYERS, UpdatePlayersCallback);
         _socket.On(IOTypes.R_LOGIN_RESULT, LoginResultCallback);
         _socket.On(IOTypes.R_RUN_TIMER, RunTimerCallback);
@@ -92,12 +88,6 @@ public class GameManager : MonoBehaviour
         HaltSpinner();
     }
 
-    private void CorrectNameCallback(SocketIOEvent e)
-    {
-        Debug.Log(">> correct name: " + e.data.ToString());
-        LocalName = e.data.GetField("data").str;
-    }
-
     private void UpdatePlayersCallback(SocketIOEvent e)
     {
         Debug.Log(">> update players: " + e.data.ToString());
@@ -107,6 +97,8 @@ public class GameManager : MonoBehaviour
         {
             PlayerDatas.Add(new PlayerData
             {
+                LoginMethod = obj.GetField("loginMethod").str,
+                Pid = obj.GetField("pid").str,
                 Name = obj.GetField("name").str,
                 Power = (int)obj.GetField("power").n,
                 Act = obj.GetField("act").str,
@@ -199,15 +191,11 @@ public class GameManager : MonoBehaviour
     internal void PlayerLeave()
     {
         JSONObject data = JSONObject.Create();
-        data.AddField("name", LocalName);
+        data.AddField("method", LoginMethod);
+        data.AddField("pid", LoginPid);
         Emit(IOTypes.E_LEAVE, data);
 
         SceneManager.LoadScene("Login");
-    }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        Debug.Log("Scene loaded " + scene.name);
     }
 
     public void ShowToast(string message)

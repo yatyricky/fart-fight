@@ -12,7 +12,8 @@ public class BattleResult : MonoBehaviour
     {
         gameObject.SetActive(false);
         JSONObject data = JSONObject.Create();
-        data.AddField("name", GameManager.Instance.LocalName);
+        data.AddField("method", GameManager.Instance.LoginMethod);
+        data.AddField("pid", GameManager.Instance.LoginPid);
         GameManager.Instance.Emit(IOTypes.E_CLOSE_RES, data);
     }
 
