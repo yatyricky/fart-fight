@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class LocalPlayer : MonoBehaviour
 {
@@ -7,31 +8,16 @@ public class LocalPlayer : MonoBehaviour
     public GameObject ShockButton;
     public GameObject BlockButton;
 
-    public Sprite ShockDeselected;
-    public Sprite ShockSelected;
-    public Sprite NukeDeselected;
-    public Sprite NukeSelected;
-
     internal void UpdateShockButton(int power)
     {
         ToggleTuner checkBehaviour = ShockButton.GetComponent<ToggleTuner>();
         if (power >= Configs.NUKE_POWER)
         {
-            checkBehaviour.DeselectedSprite = NukeDeselected;
-            checkBehaviour.SelectedSprite = NukeSelected;
+            checkBehaviour.TextObject.GetComponent<Text>().text = "HUGE STINKY FART";
         }
         else
         {
-            checkBehaviour.DeselectedSprite = ShockDeselected;
-            checkBehaviour.SelectedSprite = ShockSelected;
-        }
-        if (checkBehaviour.IsSelected)
-        {
-            checkBehaviour.BackgroundObject.sprite = checkBehaviour.SelectedSprite;
-        }
-        else
-        {
-            checkBehaviour.BackgroundObject.sprite = checkBehaviour.DeselectedSprite;
+            checkBehaviour.TextObject.GetComponent<Text>().text = "FART";
         }
     }
 

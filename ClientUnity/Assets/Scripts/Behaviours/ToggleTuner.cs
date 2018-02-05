@@ -7,6 +7,7 @@ public class ToggleTuner : MonoBehaviour
     public Image BackgroundObject;
     public Sprite DeselectedSprite;
     public Sprite SelectedSprite;
+    public GameObject TextObject;
 
     [Header("Siblings")]
     public GameObject Sibling1;
@@ -23,6 +24,7 @@ public class ToggleTuner : MonoBehaviour
     {
         IsSelected = true;
         BackgroundObject.sprite = SelectedSprite;
+        TextObject.transform.localPosition = new Vector3(3f, -3.125f, 0f);
         Sibling1.GetComponent<ToggleTuner>().Deselect();
         Sibling2.GetComponent<ToggleTuner>().Deselect();
     }
@@ -31,5 +33,6 @@ public class ToggleTuner : MonoBehaviour
     {
         IsSelected = false;
         BackgroundObject.sprite = DeselectedSprite;
+        TextObject.transform.localPosition = new Vector3(0f, 9.875f, 0f);
     }
 }

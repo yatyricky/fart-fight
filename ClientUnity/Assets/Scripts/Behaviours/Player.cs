@@ -53,16 +53,16 @@ public class Player : MonoBehaviour
         switch (val)
         {
             case "charge":
-                act = "酝酿";
+                act = "HOLD IN FART";
                 break;
             case "shock":
-                act = "放屁";
+                act = "FART";
                 break;
             case "block":
-                act = "憋气";
+                act = "HOLD BREATH";
                 break;
             case "nuke":
-                act = "大臭屁";
+                act = "HUGE STINKY FART";
                 break;
             default:
                 break;
@@ -149,9 +149,7 @@ public class Player : MonoBehaviour
     private IEnumerator DownloadAvatarThread()
     {
         WWW www = new WWW(urlToLoad);
-        Debug.Log("loadingggg");
         yield return www;
         Avatar.sprite = Sprite.Create(www.texture, new Rect(0.0f, 0.0f, www.texture.width, www.texture.height), new Vector2(0.5f, 0.5f), 100.0f);
-        Debug.Log("Loading node dnoneee!!!");
     }
 }
