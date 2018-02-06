@@ -94,11 +94,29 @@ public class GameScene : MonoBehaviour
             {
                 OtherPlayerObjects[otherIndex++].SetActive(false);
             }
-            GameManager.Instance.PlayerDatas.Clear();
-            if (!sound.Equals(SoundTypes.BUTTON))
+            if (shouldPlaySound && !sound.Equals(SoundTypes.BUTTON))
             {
                 GameManager.Instance.PlaySound(sound);
             }
+            if (shouldPlaySound)
+            {
+                otherIndex = 0;
+                for (int i = 0; i < GameManager.Instance.PlayerDatas.Count; i++)
+                {
+                    PlayerData element = GameManager.Instance.PlayerDatas.ElementAt(i);
+                    Player playerBehaviour;
+                    if (element.LoginMethod.Equals(GameManager.Instance.LoginMethod) && element.Pid.Equals(GameManager.Instance.LoginPid))
+                    {
+                        playerBehaviour = LocalPlayerObject.GetComponent<Player>();
+                    }
+                    else
+                    {
+                        playerBehaviour = OtherPlayerObjects[otherIndex++].GetComponent<Player>();
+                    }
+                    playerBehaviour.SetActEffect(element.Act);
+                }
+            }
+            GameManager.Instance.PlayerDatas.Clear();
         }
     }
 

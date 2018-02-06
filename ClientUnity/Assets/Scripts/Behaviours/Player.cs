@@ -14,6 +14,8 @@ public class Player : MonoBehaviour
     public GameObject PlayObject;
     public GameObject DiedObject;
     public GameObject[] PowerObject;
+    public ParticleSystem ShockParticleObject;
+    public ParticleSystem NukeParticleObject;
 
     [HideInInspector] public int Power;
 
@@ -68,6 +70,21 @@ public class Player : MonoBehaviour
                 break;
         }
         ActObject.text = act;
+    }
+
+    internal void SetActEffect(string act)
+    {
+        switch (act)
+        {
+            case PlayerActions.SHOCK:
+                ShockParticleObject.Play(true);
+                break;
+            case PlayerActions.NUKE:
+                NukeParticleObject.Play(true);
+                break;
+            default:
+                break;
+        }
     }
 
     internal void SetState(string state)
