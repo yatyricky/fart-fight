@@ -426,6 +426,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 663622086}
+        m_MethodName: OnClickPlaySound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &88418230
@@ -744,6 +755,16 @@ Prefab:
         type: 2}
       propertyPath: m_FontData.m_VerticalOverflow
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114124415594695936, guid: 4f582516c0bd40c409ec7212c7178857,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 663622086}
+    - target: {fileID: 114124415594695936, guid: 4f582516c0bd40c409ec7212c7178857,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: OnClickPlaySound
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4f582516c0bd40c409ec7212c7178857, type: 2}
@@ -1905,6 +1926,16 @@ Prefab:
       propertyPath: m_FontData.m_VerticalOverflow
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114124415594695936, guid: 4f582516c0bd40c409ec7212c7178857,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 663622086}
+    - target: {fileID: 114124415594695936, guid: 4f582516c0bd40c409ec7212c7178857,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: OnClickPlaySound
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4f582516c0bd40c409ec7212c7178857, type: 2}
   m_IsPrefabParent: 0
@@ -2183,6 +2214,7 @@ GameObject:
   - component: {fileID: 663622083}
   - component: {fileID: 663622082}
   - component: {fileID: 663622085}
+  - component: {fileID: 663622086}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -2261,6 +2293,17 @@ MonoBehaviour:
   FaceShock: {fileID: 21300000, guid: 9f1765e448ea0cd428261ebc24c3842c, type: 3}
   FaceBlock: {fileID: 21300000, guid: b6fb1f8fca22f1042b4e7ac6b9d7fe6c, type: 3}
   FaceNuke: {fileID: 21300000, guid: 1f81ab4442e12a5419965c9605e59da5, type: 3}
+--- !u!114 &663622086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 663622081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d46bce91e8c829341b32c7a34905b246, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &718355469
 GameObject:
   m_ObjectHideFlags: 0
@@ -2341,6 +2384,17 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1598511636}
         m_MethodName: OnLeavePressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 663622086}
+        m_MethodName: OnClickPlaySound
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3339,6 +3393,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 663622086}
+        m_MethodName: OnClickPlaySound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1221935068
@@ -3650,6 +3715,11 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1907488552}
+    - target: {fileID: 114124415594695936, guid: 4f582516c0bd40c409ec7212c7178857,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 663622086}
     - target: {fileID: 1407822140632558, guid: 4f582516c0bd40c409ec7212c7178857, type: 2}
       propertyPath: m_Name
       value: Charge
@@ -4518,6 +4588,17 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1598511636}
         m_MethodName: OnExitButtonPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 663622086}
+        m_MethodName: OnClickPlaySound
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

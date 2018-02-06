@@ -22,4 +22,9 @@ public class Toast : MonoBehaviour
         });
     }
 
+    public void ClickToDismiss()
+    {
+        gameObject.SetActive(false);
+    }
+
 }

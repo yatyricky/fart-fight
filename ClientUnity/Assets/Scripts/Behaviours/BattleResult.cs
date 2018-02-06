@@ -15,6 +15,7 @@ public class BattleResult : MonoBehaviour
         data.AddField("method", GameManager.Instance.LoginMethod);
         data.AddField("pid", GameManager.Instance.LoginPid);
         GameManager.Instance.Emit(IOTypes.E_CLOSE_RES, data);
+        GameManager.Instance.RestoreBGM();
     }
 
     internal void Show(List<PlayerScore> list)
@@ -33,5 +34,6 @@ public class BattleResult : MonoBehaviour
             Entries[i].SetActive(false);
         }
         gameObject.SetActive(true);
+        GameManager.Instance.LowerBGM();
     }
 }

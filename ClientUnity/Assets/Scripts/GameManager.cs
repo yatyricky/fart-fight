@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public GameObject SocketIOObject;
     public GameObject DedicatedSpinnerObject;
     public GameObject ToastObject;
+    public GameObject SoundManagerObject;
 
     [HideInInspector] public LoginScene LoginSceneBehaviour;
     [HideInInspector] public GameScene GameSceneBehaviour;
@@ -214,6 +215,40 @@ public class GameManager : MonoBehaviour
     public void HaltSpinner()
     {
         DedicatedSpinnerObject.GetComponent<DedicatedSpinner>().Halt();
+    }
+
+    public void PlaySound(SoundTypes whichSound)
+    {
+        SoundManager sm = SoundManagerObject.GetComponent<SoundManager>();
+        switch (whichSound)
+        {
+            case SoundTypes.BUTTON:
+                sm.PlayButtonSound();
+                break;
+            case SoundTypes.NUKE:
+                sm.PlayNukeSound();
+                break;
+            case SoundTypes.SHOCK:
+                sm.PlayShockSound();
+                break;
+            case SoundTypes.DING:
+                sm.PlayDingSound();
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void LowerBGM()
+    {
+        SoundManager sm = SoundManagerObject.GetComponent<SoundManager>();
+        sm.LowerBGM();
+    }
+
+    public void RestoreBGM()
+    {
+        SoundManager sm = SoundManagerObject.GetComponent<SoundManager>();
+        sm.RestoreBGM();
     }
 
 }

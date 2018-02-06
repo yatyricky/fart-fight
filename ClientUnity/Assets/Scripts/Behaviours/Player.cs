@@ -52,16 +52,16 @@ public class Player : MonoBehaviour
         string act = "";
         switch (val)
         {
-            case "charge":
+            case PlayerActions.CHARGE:
                 act = "HOLD IN FART";
                 break;
-            case "shock":
+            case PlayerActions.SHOCK:
                 act = "FART";
                 break;
-            case "block":
+            case PlayerActions.BLOCK:
                 act = "HOLD BREATH";
                 break;
-            case "nuke":
+            case PlayerActions.NUKE:
                 act = "HUGE STINKY FART";
                 break;
             default:
@@ -74,25 +74,25 @@ public class Player : MonoBehaviour
     {
         switch (state)
         {
-            case "wait":
+            case PlayerStates.WAIT:
                 ReadyObject.SetActive(false);
                 PlayObject.SetActive(false);
                 DiedObject.SetActive(false);
                 WaitObject.SetActive(true);
                 break;
-            case "ready":
+            case PlayerStates.READY:
                 WaitObject.SetActive(false);
                 PlayObject.SetActive(false);
                 DiedObject.SetActive(false);
                 ReadyObject.SetActive(true);
                 break;
-            case "game":
+            case PlayerStates.GAME:
                 WaitObject.SetActive(false);
                 ReadyObject.SetActive(false);
                 DiedObject.SetActive(false);
                 PlayObject.SetActive(true);
                 break;
-            case "died":
+            case PlayerStates.DIED:
                 WaitObject.SetActive(false);
                 ReadyObject.SetActive(false);
                 PlayObject.SetActive(false);
@@ -104,29 +104,29 @@ public class Player : MonoBehaviour
 
         // set face
         GameScene gs = GameManager.Instance.GameSceneBehaviour;
-        if (state.Equals("wait") || state.Equals("ready"))
+        if (state.Equals(PlayerStates.WAIT) || state.Equals(PlayerStates.READY))
         {
             PlayerFace.sprite = gs.FaceReady;
         }
-        else if (state.Equals("died"))
+        else if (state.Equals(PlayerStates.DIED))
         {
             PlayerFace.sprite = gs.FaceDied;
         }
         else
         {
-            if (_actFace.Equals("charge"))
+            if (_actFace.Equals(PlayerActions.CHARGE))
             {
                 PlayerFace.sprite = gs.FaceCharge;
             }
-            else if (_actFace.Equals("shock"))
+            else if (_actFace.Equals(PlayerActions.SHOCK))
             {
                 PlayerFace.sprite = gs.FaceShock;
             }
-            else if (_actFace.Equals("block"))
+            else if (_actFace.Equals(PlayerActions.BLOCK))
             {
                 PlayerFace.sprite = gs.FaceBlock;
             }
-            else if (_actFace.Equals("nuke"))
+            else if (_actFace.Equals(PlayerActions.NUKE))
             {
                 PlayerFace.sprite = gs.FaceNuke;
             }

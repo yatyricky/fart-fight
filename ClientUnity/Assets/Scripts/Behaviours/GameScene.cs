@@ -49,6 +49,8 @@ public class GameScene : MonoBehaviour
         if (GameManager.Instance.PlayerDatas.Count > 0)
         {
             Debug.Log("should update players");
+            SoundTypes sound = SoundTypes.BUTTON;
+            bool shouldPlaySound = true;
             int otherIndex = 0;
             for (int i = 0; i < GameManager.Instance.PlayerDatas.Count; i++)
             {
@@ -62,19 +64,41 @@ public class GameScene : MonoBehaviour
                 else
                 {
                     playerBehaviour = OtherPlayerObjects[otherIndex++].GetComponent<Player>();
-                    playerBehaviour.gameObject.SetActive(true);
+                    if (playerBehaviour.gameObject.activeSelf == false)
+                    {
+                        GameManager.Instance.PlaySound(SoundTypes.DING);
+                        playerBehaviour.gameObject.SetActive(true);
+                    }
+                    
                 }
                 playerBehaviour.SetName(element.Name);
                 playerBehaviour.SetPower(element.Power);
                 playerBehaviour.SetAct(element.Act);
                 playerBehaviour.SetState(element.State);
                 playerBehaviour.LoadAvatar(element.AvatarURL);
+
+                if (element.State.Equals(PlayerStates.WAIT) || element.State.Equals(PlayerStates.READY))
+                {
+                    shouldPlaySound = false;
+                }
+                if (shouldPlaySound && element.Act.Equals(PlayerActions.NUKE) && !sound.Equals(SoundTypes.NUKE))
+                {
+                    sound = SoundTypes.NUKE;
+                }
+                if (shouldPlaySound && element.Act.Equals(PlayerActions.SHOCK) && sound.Equals(SoundTypes.BUTTON))
+                {
+                    sound = SoundTypes.SHOCK;
+                }
             }
             while (otherIndex < 3)
             {
                 OtherPlayerObjects[otherIndex++].SetActive(false);
             }
             GameManager.Instance.PlayerDatas.Clear();
+            if (!sound.Equals(SoundTypes.BUTTON))
+            {
+                GameManager.Instance.PlaySound(sound);
+            }
         }
     }
 
