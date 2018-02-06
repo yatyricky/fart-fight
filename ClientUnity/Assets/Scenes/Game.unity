@@ -217,10 +217,10 @@ RectTransform:
   m_Father: {fileID: 194439073}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.45510224, y: 0.0882341}
+  m_AnchorMin: {x: 0.51689845, y: 0.093196034}
   m_AnchorMax: {x: 0.95085007, y: 0.8732066}
-  m_AnchoredPosition: {x: -0.049437582, y: -0.47618163}
-  m_SizeDelta: {x: 0.098875165, y: -0.9522135}
+  m_AnchoredPosition: {x: 0.087867916, y: -0.4620255}
+  m_SizeDelta: {x: -0.17578161, y: -1.0283121}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &36858837
 MonoBehaviour:
@@ -6689,8 +6689,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -103, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -87.1, y: -1.9028}
+  m_SizeDelta: {x: 191.8, y: 57.136}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1058984246
 MonoBehaviour:
@@ -6724,7 +6724,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'Lift No.:'
+  m_Text: 'Room No.:'
 --- !u!222 &1058984247
 CanvasRenderer:
   m_ObjectHideFlags: 0

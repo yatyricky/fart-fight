@@ -9,6 +9,7 @@ public class LoginScene : MonoBehaviour
     public GameObject GooglePlayLoginButton;
     public InputField InputPlayerName;
     public Text InputRoomId;
+    public GameObject HelpPageObject;
 
     private static Queue<Action> ReceivedActions = new Queue<Action>();
 
@@ -104,5 +105,15 @@ public class LoginScene : MonoBehaviour
         });
     }
 #endif
+
+    public void OnClickedHelp()
+    {
+        HelpPageObject.SetActive(true);
+    }
+
+    public void OnClickedExitHelp()
+    {
+        HelpPageObject.SetActive(false);
+    }
 
 }

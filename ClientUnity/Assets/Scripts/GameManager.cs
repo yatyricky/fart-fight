@@ -129,13 +129,13 @@ public class GameManager : MonoBehaviour
             if (reason.Equals("room is full"))
             {
                 Debug.Log("room full");
-                ShowToast("Lift is full");
+                ShowToast("Room is full");
 
             }
             else if (reason.Equals("no such room"))
             {
                 Debug.Log("no such room");
-                ShowToast("No such lift");
+                ShowToast("No such room");
             }
         }
     }
