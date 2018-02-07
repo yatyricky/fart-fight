@@ -42,6 +42,21 @@ public class GameManager : MonoBehaviour
         PlayerDatas = new List<PlayerData>();
     }
 
+    void OnEnable()
+    {
+        Debug.Log("OnEnable called");
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log("OnSceneLoaded: " + scene.name);
+        if (scene.name.Equals("Game"))
+        {
+            HaltSpinner();
+        }
+    }
+
     void Start()
     {
         _socket = SocketIOObject.GetComponent<SocketIOComponent>();
@@ -73,6 +88,12 @@ public class GameManager : MonoBehaviour
                 HaltSpinner();
             }
         }
+    }
+
+    void OnDisable()
+    {
+        Debug.Log("OnDisable");
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     #endregion

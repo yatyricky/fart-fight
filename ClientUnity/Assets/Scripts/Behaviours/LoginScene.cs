@@ -64,6 +64,7 @@ public class LoginScene : MonoBehaviour
             GameManager.Instance.LoginPid = pid;
             GameManager.Instance.LocalName = InputPlayerName.text;
             GameManager.Instance.Emit(IOTypes.E_LOGIN, data);
+            GameManager.Instance.InitiateSpin(SpinReason.REQUEST_NETWORK);
         }
         else
         {

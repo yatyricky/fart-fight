@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using GooglePlayGames;
 
 public class GameScene : MonoBehaviour
 {
