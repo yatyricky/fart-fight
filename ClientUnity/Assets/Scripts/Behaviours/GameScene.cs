@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Collections;
 
 public class GameScene : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class GameScene : MonoBehaviour
     public Text RoomIdObject;
     public GameObject BattleResultObject;
     public GameObject ExitPageObject;
+    public GameObject TipsShareObject;
     [Header("Players")]
     public GameObject[] OtherPlayerObjects;
     public GameObject LocalPlayerObject;
@@ -23,22 +25,51 @@ public class GameScene : MonoBehaviour
     public Sprite FaceNuke;
 
     [HideInInspector] public bool ExitPageActive;
+    [HideInInspector] public bool TipsShareActive;
 
     private static Queue<Action> ReceivedActions = new Queue<Action>();
+
+    private IEnumerator loneChecker;
+    private bool loneCheckerRunning;
+    private int inGamePlayers;
 
     private void Awake()
     {
         GameManager.Instance.GameSceneBehaviour = this;
         ExitPageActive = false;
+        TipsShareActive = false;
+        inGamePlayers = 1;
     }
 
     private void Start()
     {
+        // 5 seconds past and you still have no opponent
+        loneChecker = PromptTipsShareGame();
+        StartCoroutine(loneChecker);
+
+        // Load players once
         RefreshPlayers();
     }
 
     private void Update()
     {
+        if (inGamePlayers == 1)
+        {
+            if (!loneCheckerRunning && !TipsShareActive)
+            {
+                loneChecker = PromptTipsShareGame();
+                StartCoroutine(loneChecker);
+            }
+        }
+        else if (inGamePlayers > 1)
+        {
+            if (loneCheckerRunning)
+            {
+                StopCoroutine(loneChecker);
+                loneCheckerRunning = false;
+            }
+        }
+
         RefreshPlayers();
         while (ReceivedActions.Count > 0)
         {
@@ -46,11 +77,22 @@ public class GameScene : MonoBehaviour
         }
     }
 
+    private IEnumerator PromptTipsShareGame()
+    {
+        loneCheckerRunning = true;
+        yield return new WaitForSeconds(Configs.TIPS_SHARE_TIMEOUT);
+        TipsShareObject.SetActive(true);
+        TipsShareActive = true;
+        loneCheckerRunning = false;
+    }
+
     private void RefreshPlayers()
     {
         if (GameManager.Instance.PlayerDatas.Count > 0)
         {
             Debug.Log("should update players");
+            inGamePlayers = GameManager.Instance.PlayerDatas.Count;
+
             SoundTypes sound = SoundTypes.BUTTON;
             bool shouldPlaySound = true;
             int otherIndex = 0;

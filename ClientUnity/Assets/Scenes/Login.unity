@@ -2502,7 +2502,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1931767961}
+      - m_Target: {fileID: 1931767962}
         m_MethodName: OnClickShare
         m_Mode: 1
         m_Arguments:
@@ -5578,6 +5578,7 @@ GameObject:
   - component: {fileID: 1931767957}
   - component: {fileID: 1931767961}
   - component: {fileID: 1931767960}
+  - component: {fileID: 1931767962}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -5657,6 +5658,17 @@ MonoBehaviour:
   InputRoomId: {fileID: 687734385}
   HelpPageObject: {fileID: 1693298903}
   HelpPageActive: 0
+--- !u!114 &1931767962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1931767956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97be1bbb2e029724f8f80fc4a735ee25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1949624847
 GameObject:
   m_ObjectHideFlags: 0

@@ -87,15 +87,25 @@ public class GameManager : MonoBehaviour
             {
                 HaltSpinner();
             }
-            if (LoginSceneBehaviour != null && LoginSceneBehaviour.HelpPageActive)
+            if (LoginSceneBehaviour != null)
             {
-                LoginSceneBehaviour.OnClickedExitHelp();
+                if (LoginSceneBehaviour.HelpPageActive)
+                {
+                    LoginSceneBehaviour.OnClickedExitHelp();
+                    return;
+                }
             }
             if (GameSceneBehaviour != null)
             {
                 if (GameSceneBehaviour.ExitPageActive)
                 {
                     GameSceneBehaviour.ExitPageObject.GetComponent<ExitDialogue>().OnDialogueDismiss();
+                    return;
+                }
+                if (GameSceneBehaviour.TipsShareActive)
+                {
+                    GameSceneBehaviour.TipsShareObject.GetComponent<InviteFriends>().OnClickDismiss();
+                    return;
                 }
             }
         }
