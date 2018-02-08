@@ -87,6 +87,17 @@ public class GameManager : MonoBehaviour
             {
                 HaltSpinner();
             }
+            if (LoginSceneBehaviour != null && LoginSceneBehaviour.HelpPageActive)
+            {
+                LoginSceneBehaviour.OnClickedExitHelp();
+            }
+            if (GameSceneBehaviour != null)
+            {
+                if (GameSceneBehaviour.ExitPageActive)
+                {
+                    GameSceneBehaviour.ExitPageObject.GetComponent<ExitDialogue>().OnDialogueDismiss();
+                }
+            }
         }
     }
 

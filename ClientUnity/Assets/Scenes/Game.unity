@@ -2504,10 +2504,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 191ccf0ea167d9949b92412810606ef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NetworkSpinnerObject: {fileID: 0}
   GameTimerObject: {fileID: 1178505581}
   RoomIdObject: {fileID: 36858837}
   BattleResultObject: {fileID: 442897429}
+  ExitPageObject: {fileID: 1598511632}
   OtherPlayerObjects:
   - {fileID: 2026433919}
   - {fileID: 870537810}
@@ -2519,6 +2519,7 @@ MonoBehaviour:
   FaceShock: {fileID: 21300000, guid: 9f1765e448ea0cd428261ebc24c3842c, type: 3}
   FaceBlock: {fileID: 21300000, guid: b6fb1f8fca22f1042b4e7ac6b9d7fe6c, type: 3}
   FaceNuke: {fileID: 21300000, guid: 1f81ab4442e12a5419965c9605e59da5, type: 3}
+  ExitPageActive: 0
 --- !u!114 &663622086
 MonoBehaviour:
   m_ObjectHideFlags: 0

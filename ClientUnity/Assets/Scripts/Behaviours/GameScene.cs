@@ -7,10 +7,10 @@ using System.Collections.Generic;
 public class GameScene : MonoBehaviour
 {
     [Header("Tuners")]
-    public GameObject NetworkSpinnerObject;
     public GameObject GameTimerObject;
     public Text RoomIdObject;
     public GameObject BattleResultObject;
+    public GameObject ExitPageObject;
     [Header("Players")]
     public GameObject[] OtherPlayerObjects;
     public GameObject LocalPlayerObject;
@@ -22,11 +22,14 @@ public class GameScene : MonoBehaviour
     public Sprite FaceBlock;
     public Sprite FaceNuke;
 
+    [HideInInspector] public bool ExitPageActive;
+
     private static Queue<Action> ReceivedActions = new Queue<Action>();
 
     private void Awake()
     {
         GameManager.Instance.GameSceneBehaviour = this;
+        ExitPageActive = false;
     }
 
     private void Start()
