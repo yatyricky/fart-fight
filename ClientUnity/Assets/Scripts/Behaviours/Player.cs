@@ -156,7 +156,7 @@ public class Player : MonoBehaviour
 
     internal void LoadAvatar(string avatarURL)
     {
-        if (!urlToLoad.Equals(avatarURL) && !avatarURL.Equals(""))
+        if (!urlToLoad.Equals(avatarURL) && !string.IsNullOrEmpty(avatarURL))
         {
             urlToLoad = avatarURL;
             StartCoroutine(DownloadAvatarThread());
@@ -167,6 +167,15 @@ public class Player : MonoBehaviour
     {
         WWW www = new WWW(urlToLoad);
         yield return www;
-        Avatar.sprite = Sprite.Create(www.texture, new Rect(0.0f, 0.0f, www.texture.width, www.texture.height), new Vector2(0.5f, 0.5f), 100.0f);
+        float pixelsPerUnit = 100f;
+        if (www.texture.width > www.texture.height)
+        {
+            pixelsPerUnit = pixelsPerUnit * www.texture.width / Configs.AVATAR_SIZE;
+        }
+        else
+        {
+            pixelsPerUnit = pixelsPerUnit * www.texture.height / Configs.AVATAR_SIZE;
+        }
+        Avatar.sprite = Sprite.Create(www.texture, new Rect(0.0f, 0.0f, www.texture.width, www.texture.height), new Vector2(0.5f, 0.5f), pixelsPerUnit);
     }
 }

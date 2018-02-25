@@ -180,7 +180,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Onboard
+  m_Text: Ready
 --- !u!222 &27989831
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2965,7 +2965,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &655455900
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3079,6 +3079,7 @@ MonoBehaviour:
   FaceBlock: {fileID: 21300000, guid: b6fb1f8fca22f1042b4e7ac6b9d7fe6c, type: 3}
   FaceNuke: {fileID: 21300000, guid: 1f81ab4442e12a5419965c9605e59da5, type: 3}
   ExitPageActive: 0
+  TipsShareActive: 0
 --- !u!114 &663622086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8347,7 +8348,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1484993704
 RectTransform:
   m_ObjectHideFlags: 0

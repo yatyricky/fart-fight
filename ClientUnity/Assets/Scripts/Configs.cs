@@ -6,4 +6,5 @@
     public const int NUKE_POWER = 5;
     public const float INTERVAL = 5f;
     public const float TIPS_SHARE_TIMEOUT = 5f;
+    public const int AVATAR_SIZE = 96;
 }

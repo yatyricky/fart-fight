@@ -87,6 +87,10 @@ public class GameManager : MonoBehaviour
             {
                 HaltSpinner();
             }
+            else if (DedicatedSpinnerObject.GetComponent<DedicatedSpinner>().Reason.Equals(SpinReason.SIGN_IN_FACEBOOK))
+            {
+                HaltSpinner();
+            }
             if (LoginSceneBehaviour != null)
             {
                 if (LoginSceneBehaviour.HelpPageActive)
@@ -179,6 +183,7 @@ public class GameManager : MonoBehaviour
                 Debug.Log("no such room");
                 ShowToast("No such room");
             }
+            HaltSpinner();
         }
     }
 
