@@ -1,0 +1,3 @@
+[submodule "fart-fight-server"]
+	path = fart-fight-server
+	url = https://github.com/yatyricky/fart-fight-server.git
