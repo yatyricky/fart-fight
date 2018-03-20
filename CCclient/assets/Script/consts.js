@@ -10,9 +10,16 @@ window.reqs = {
 };
 
 window.recs = {
-    CORRECT_NAME: 'correct name',
-    UPDATE_PLAYERS: 'update players',
-    LOGIN_RESULT: 'login result',
-    RUN_TIMER: 'run timer',
-    GAME_END: 'game end'
+    LINK_ESTABLISHED: "link established",
+    UPDATE_PLAYERS: "update players",
+    LOGIN_RESULT: "login result",
+    RUN_TIMER: "run timer",
+    GAME_END: "game end"
+};
+
+window.loginMethods = {
+    DEVICE: "dvc",
+    GOOGLE_GAMES: "gpg",
+    FACEBOOK: "fb",
+    FB_INST_GAMES: "fbig"
 };

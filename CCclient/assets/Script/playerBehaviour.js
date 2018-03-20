@@ -57,7 +57,7 @@ cc.Class({
     },
 
     onLoad () {
-        this.gm = cc.find('gameManager').getComponent('gameManager');
+        this.gm = cc.find('GameManager').getComponent('GameManager');
         this.powerNodes = [];
         this.powerNodes.push(this.p1Node);
         this.powerNodes.push(this.p2Node);

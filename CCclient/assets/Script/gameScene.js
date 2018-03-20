@@ -61,7 +61,7 @@ cc.Class({
     },
 
     onLoad () {
-        this.gm = cc.find('gameManager').getComponent('gameManager');
+        this.gm = cc.find('GameManager').getComponent('GameManager');
         this.roomIdUpdated = false;
         this.timer = this.timerNode.getComponent('timerBehaviour');
         this.localPlayer = this.localPlayerNode.getComponent('playerBehaviour');

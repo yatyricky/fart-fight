@@ -9,7 +9,7 @@ cc.Class({
     },
 
     onLoad() {
-        this.gm = cc.find('gameManager').getComponent('gameManager');
+        this.gm = cc.find('GameManager').getComponent('GameManager');
         this.playerNameEditBox = this.playerNameNode.getComponent(cc.EditBox);
     },
 

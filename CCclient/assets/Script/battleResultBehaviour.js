@@ -7,7 +7,7 @@ cc.Class({
 
     onBackMaskClicked() {
         this.node.active = false;
-        const gm = cc.find('gameManager').getComponent('gameManager');
+        const gm = cc.find('GameManager').getComponent('GameManager');
         gm.emit(reqs.CLOSE_RES, gm.localName);
     },
 
