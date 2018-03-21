@@ -175,8 +175,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 144,
-      "height": 48
+      "width": 94,
+      "height": 64
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -185,7 +185,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": 0,
-      "y": 0
+      "y": 5.8
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -203,16 +203,16 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_actualFontSize": 48,
-    "_fontSize": 48,
-    "_lineHeight": 48,
+    "_actualFontSize": 40,
+    "_fontSize": 40,
+    "_lineHeight": 64,
     "_enableWrapText": true,
     "_N$file": {
-      "__uuid__": "b944f9ec-7624-4bbf-bc97-15a9e0b39c14"
+      "__uuid__": "97f463ba-23f0-4b3f-abe7-ea8e4d6779af"
     },
     "_isSystemFontUsed": false,
     "_spacingX": 0,
-    "_N$string": "毕姥爷",
+    "_N$string": "Alice",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
@@ -370,7 +370,7 @@
       }
     ],
     "_tag": -1,
-    "_active": true,
+    "_active": false,
     "_components": [],
     "_prefab": {
       "__id__": 15
@@ -446,8 +446,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 240,
-      "height": 48
+      "width": 187,
+      "height": 64
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -474,16 +474,16 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_actualFontSize": 48,
-    "_fontSize": 48,
-    "_lineHeight": 48,
+    "_actualFontSize": 40,
+    "_fontSize": 40,
+    "_lineHeight": 64,
     "_enableWrapText": true,
     "_N$file": {
-      "__uuid__": "b944f9ec-7624-4bbf-bc97-15a9e0b39c14"
+      "__uuid__": "97f463ba-23f0-4b3f-abe7-ea8e4d6779af"
     },
     "_isSystemFontUsed": false,
     "_spacingX": 0,
-    "_N$string": "准备中……",
+    "_N$string": "Waiting ...",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
@@ -600,8 +600,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 144,
-      "height": 48
+      "width": 112,
+      "height": 64
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -628,16 +628,16 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_actualFontSize": 48,
-    "_fontSize": 48,
-    "_lineHeight": 48,
+    "_actualFontSize": 40,
+    "_fontSize": 40,
+    "_lineHeight": 64,
     "_enableWrapText": true,
     "_N$file": {
-      "__uuid__": "b944f9ec-7624-4bbf-bc97-15a9e0b39c14"
+      "__uuid__": "97f463ba-23f0-4b3f-abe7-ea8e4d6779af"
     },
     "_isSystemFontUsed": false,
     "_spacingX": 0,
-    "_N$string": "已准备",
+    "_N$string": "Ready",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
@@ -757,8 +757,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 96,
-      "height": 48
+      "width": 83,
+      "height": 64
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -766,7 +766,7 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 107,
+      "x": 71,
       "y": 57
     },
     "_skewX": 0,
@@ -785,16 +785,16 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_actualFontSize": 48,
-    "_fontSize": 48,
-    "_lineHeight": 48,
+    "_actualFontSize": 40,
+    "_fontSize": 40,
+    "_lineHeight": 64,
     "_enableWrapText": true,
     "_N$file": {
-      "__uuid__": "b944f9ec-7624-4bbf-bc97-15a9e0b39c14"
+      "__uuid__": "97f463ba-23f0-4b3f-abe7-ea8e4d6779af"
     },
     "_isSystemFontUsed": false,
     "_spacingX": 0,
-    "_N$string": "酝酿",
+    "_N$string": "Fart",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
@@ -1397,7 +1397,7 @@
       }
     ],
     "_tag": -1,
-    "_active": false,
+    "_active": true,
     "_components": [],
     "_prefab": {
       "__id__": 48
@@ -1473,8 +1473,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 240,
-      "height": 48
+      "width": 210,
+      "height": 64
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -1501,16 +1501,16 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_actualFontSize": 48,
-    "_fontSize": 48,
-    "_lineHeight": 48,
+    "_actualFontSize": 40,
+    "_fontSize": 40,
+    "_lineHeight": 64,
     "_enableWrapText": true,
     "_N$file": {
-      "__uuid__": "b944f9ec-7624-4bbf-bc97-15a9e0b39c14"
+      "__uuid__": "97f463ba-23f0-4b3f-abe7-ea8e4d6779af"
     },
     "_isSystemFontUsed": false,
     "_spacingX": 0,
-    "_N$string": "臭晕了……",
+    "_N$string": "Faint out ...",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
@@ -1575,6 +1575,12 @@
     "playerName": {
       "__id__": 3
     },
+    "playerAct": {
+      "__id__": 22
+    },
+    "playerFace": {
+      "__id__": 8
+    },
     "waitNode": {
       "__id__": 11
     },
@@ -1601,7 +1607,8 @@
     },
     "p5Node": {
       "__id__": 38
-    }
+    },
+    "gameSceneNode": null
   },
   {
     "__type__": "cc.PrefabInfo",

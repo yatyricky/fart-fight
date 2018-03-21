@@ -20,12 +20,16 @@ cc.Class({
 
     onKeyPressed(e) {
         cc.audioEngine.play(this.sound, false, 1);
-        this.textLabel.x += 3;
-        this.textLabel.y -= 13;
+        if (this.textLabel != null) {
+            this.textLabel.x += 3;
+            this.textLabel.y -= 13;
+        }
     },
 
     onKeyReleased(e) {
-        this.textLabel.x = 3;
-        this.textLabel.y = 10;
+        if (this.textLabel != null) {
+            this.textLabel.x = 3;
+            this.textLabel.y = 10;
+        }
     }
 });

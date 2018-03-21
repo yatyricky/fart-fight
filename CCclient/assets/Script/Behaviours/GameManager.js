@@ -1,3 +1,5 @@
+window.GM = null;
+
 cc.Class({
     extends: cc.Component,
 
@@ -9,24 +11,38 @@ cc.Class({
         toastNode: {
             default: null,
             type: cc.Node
+        },
+        backgroundMusic: {
+            default: null,
+            type: cc.AudioSource
+        },
+        soundDing: {
+            url: cc.AudioClip,
+            default: null
         }
     },
 
     onLoad () {
         cc.game.addPersistRootNode(this.node);
+        window.GM = this;
+        this.backgroundMusic.play();
         this.spinner = this.spinnerNode.getComponent('spinnerBehaviour');
         
         this.socket = io(serverURL, {
-            autoConnect: false
+            autoConnect: false,
+            transports: ["websocket"]
         });
         this.playerData = null;
         this.roomId = -1;
+        this.localPid = "";
+        this.localMethod = "";
         this.localName = "";
 
         this.gameScene = null;
 
-        this.socket.on(recs.CORRECT_NAME, (data) => {
-            this.localName = data;
+        this.socket.on(recs.LINK_ESTABLISHED, (data) => {
+            console.log('>> Link Established');
+            this.stopSpinner();
         });
 
         this.socket.on(recs.UPDATE_PLAYERS, (data) => {
@@ -34,6 +50,8 @@ cc.Class({
         });
 
         this.socket.on(recs.LOGIN_RESULT, (data) => {
+            console.log(">> login result: ");
+            console.log(data);
             if (data.res == 'success') {
                 console.log(`login success`);
                 this.roomId = data.roomId;
@@ -43,10 +61,12 @@ cc.Class({
             } else {
                 if (data.reason == 'room is full') {
                     console.log(`room full`);
-
+                    this.toast("Room is full");
                 } else if (data.reason == 'no such room') {
                     console.log(`no such room`);
+                    this.toast("No such room");
                 }
+                this.stopSpinner();
             }
         });
 
@@ -72,7 +92,10 @@ cc.Class({
     emit (ename, payload) {
         if (this.socket.connected == false) {
             this.socket.open();
+            console.log('socket open');
+            
         }
+        console.log(`emit ${ename} ${JSON.stringify(payload)}`);
         this.socket.emit(ename, payload);
     },
 
@@ -86,7 +109,10 @@ cc.Class({
         cc.director.loadScene("login", () => {
             this.stopSpinner();
         });
-        this.emit(reqs.LEAVE, this.localName);
+        this.emit(reqs.LEAVE, {
+            pid: this.localPid,
+            method: this.localMethod
+        });
     },
 
     startSpinner() {
@@ -99,6 +125,16 @@ cc.Class({
 
     toast(message) {
         this.toastNode.getComponent("Toast").toast(message);
+    },
+
+    playSound(whichSound) {
+        switch (whichSound) {
+            case 'ding':
+                cc.audioEngine.play(this.soundDing, false, 1);
+                break;
+            default:
+                break;
+        }
     }
 
 });
