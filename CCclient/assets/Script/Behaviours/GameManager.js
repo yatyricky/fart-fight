@@ -1,4 +1,6 @@
 window.GM = null;
+window.loginSceneActions = [];
+window.gameSceneActions = [];
 
 cc.Class({
     extends: cc.Component,
@@ -37,6 +39,7 @@ cc.Class({
         this.localPid = "";
         this.localMethod = "";
         this.localName = "";
+        this.localAvatar = "";
 
         this.gameScene = null;
 
@@ -135,6 +138,23 @@ cc.Class({
             default:
                 break;
         }
+    },
+
+    start() {
+        if (typeof(FBInstant) != "undefined") {
+            // Facebook Instant Games
+            this.initWithFBInstant();
+        }
+    },
+
+    initWithFBInstant() {
+        this.localMethod = "fbig";
+        this.localPid = FBInstant.player.getID();
+        this.localName = FBInstant.player.getName();
+        this.localAvatar = FBInstant.player.getPhoto();
+        window.loginSceneActions.push((scene) => {
+            scene.inputPlayerName.getComponent(cc.EditBox).string = this.localName;
+        });
     }
 
 });

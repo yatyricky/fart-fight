@@ -25,8 +25,8 @@ cc.Class({
     onStartClicked () {
         const name = this.inputPlayerName.getComponent(cc.EditBox).string;
         const roomId = this.inputRoomId.getComponent(cc.EditBox).string;
-        const loginMethod = loginMethods.FB_INST_GAMES; // TODO hard code
-        const playerId = Math.floor(Math.random() * 99999.0); // TODO facebook instant games uid
+        const loginMethod = window.GM.localMethod;
+        const playerId = window.GM.localPid;
         console.log(`name = ${name} roomId = ${roomId}`);
         if (name.length > 0) {
             window.GM.startSpinner();
@@ -35,7 +35,7 @@ cc.Class({
                 roomId: roomId,
                 method: loginMethod,
                 pid: playerId,
-                avatar: "" //  TODO facebook avatar
+                avatar: window.GM.localAvatar
             });
 
             window.GM.localMethod = loginMethod;
@@ -52,6 +52,12 @@ cc.Class({
 
     onHelpDismiss() {
         this.helpPage.active = false;
+    },
+
+    update(dt) {
+        while (window.loginSceneActions.length > 0) {
+            window.loginSceneActions.pop()(this);
+        }
     }
 
 });
