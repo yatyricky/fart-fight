@@ -30,6 +30,10 @@ cc.Class({
             default: null,
             type: cc.Node
         },
+        avatarImage: {
+            default: null,
+            type: cc.Sprite
+        },
         p1Node: {
             default: null,
             type: cc.Node
@@ -56,7 +60,7 @@ cc.Class({
         }
     },
 
-    onLoad () {
+    onLoad() {
         this.powerNodes = [];
         this.powerNodes.push(this.p1Node);
         this.powerNodes.push(this.p2Node);
@@ -66,9 +70,10 @@ cc.Class({
 
         this.power = 0;
         this.actFace = null;
+        this.currentAvatar = "";
     },
 
-    setName (val) {
+    setName(val) {
         this.playerName.getComponent(cc.Label).string = val;
     },
 
@@ -154,6 +159,20 @@ cc.Class({
         }
         while (i < NUKE_POWER) {
             this.powerNodes[i++].active = false;
+        }
+    },
+
+    setAvatar(url) {
+        if (url != "" && this.currentAvatar != url) {
+            console.log(`start to load img`);
+            this.currentAvatar = url;
+            cc.loader.load(url, (err, tex) => {
+                if (err) {
+                    this.currentAvatar = "";
+                } else {
+                    this.avatarImage.spriteFrame.setTexture(tex);
+                }
+            });
         }
     }
 

@@ -100,6 +100,7 @@ cc.Class({
                 playerBehaviourObject.setPower(element.power);
                 playerBehaviourObject.setAct(element.act);
                 playerBehaviourObject.setState(element.state);
+                playerBehaviourObject.setAvatar(element.avatar);
             }
             while (otherIndex < 3) {
                 this.otherPlayers[otherIndex++].node.active = false;

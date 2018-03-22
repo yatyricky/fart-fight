@@ -37,7 +37,7 @@ cc.Class({
         this.playerData = null;
         this.roomId = -1;
         this.localPid = "";
-        this.localMethod = "";
+        this.localMethod = window.loginMethods.DEVICE;
         this.localName = "";
         this.localAvatar = "";
 
@@ -68,6 +68,9 @@ cc.Class({
                 } else if (data.reason == 'no such room') {
                     console.log(`no such room`);
                     this.toast("No such room");
+                } else if (data.reason == 'bad player') {
+                    console.log(`bad player`);
+                    this.toast("Please try again");
                 }
                 this.stopSpinner();
             }
@@ -148,7 +151,7 @@ cc.Class({
     },
 
     initWithFBInstant() {
-        this.localMethod = "fbig";
+        this.localMethod = window.loginMethods.FB_INST_GAMES;
         this.localPid = FBInstant.player.getID();
         this.localName = FBInstant.player.getName();
         this.localAvatar = FBInstant.player.getPhoto();

@@ -26,7 +26,10 @@ cc.Class({
         const name = this.inputPlayerName.getComponent(cc.EditBox).string;
         const roomId = this.inputRoomId.getComponent(cc.EditBox).string;
         const loginMethod = window.GM.localMethod;
-        const playerId = window.GM.localPid;
+        let playerId = window.GM.localPid;
+        if (loginMethod == window.loginMethods.DEVICE) {
+            playerId = Math.random().toString(36).slice(2);
+        }
         console.log(`name = ${name} roomId = ${roomId}`);
         if (name.length > 0) {
             window.GM.startSpinner();
