@@ -88,7 +88,7 @@ cc.Class({
             for (let i = 0; i < window.GM.playerData.data.length; i++) {
                 const element = window.GM.playerData.data[i];
                 let playerBehaviourObject;
-                if (element.pid == window.GM.localPid) {
+                if (element.pid == window.GM.localPid && element.loginMethod == window.GM.localMethod) {
                     playerBehaviourObject = this.localPlayer;
                     this.localPlayerBehaviour.updateShockButton(element.power);
                 } else {

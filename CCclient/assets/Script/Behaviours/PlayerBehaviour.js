@@ -170,7 +170,7 @@ cc.Class({
                 if (err) {
                     this.currentAvatar = "";
                 } else {
-                    this.avatarImage.spriteFrame.setTexture(tex);
+                    this.avatarImage.spriteFrame = new cc.SpriteFrame(tex);
                 }
             });
         }
