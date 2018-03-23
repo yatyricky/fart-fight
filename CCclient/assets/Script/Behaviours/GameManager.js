@@ -24,12 +24,12 @@ cc.Class({
         }
     },
 
-    onLoad () {
+    onLoad() {
         cc.game.addPersistRootNode(this.node);
         window.GM = this;
         this.backgroundMusic.play();
         this.spinner = this.spinnerNode.getComponent('spinnerBehaviour');
-        
+
         this.socket = io(serverURL, {
             autoConnect: false,
             transports: ["websocket"]
@@ -77,15 +77,83 @@ cc.Class({
         });
 
         this.socket.on(recs.RUN_TIMER, (data) => {
-            if (this.gameScene != null) {
-                this.gameScene.runTimer();
-            }
+            window.gameSceneActions.push((scene) => {
+                scene.runTimer();
+            });
         });
 
         this.socket.on(recs.GAME_END, (data) => {
             console.log(`>>game end received`);
-            if (this.gameScene != null) {
-                this.gameScene.showBattleResult(data);
+            window.gameSceneActions.push((scene) => {
+                scene.showBattleResult(data.data);
+            });
+            if (typeof (FBInstant) != "undefined") {
+                let isWinner = false;
+                if (data.winner.loginMethod == this.localMethod && data.winner.pid == this.localPid) {
+                    isWinner = true;
+                }
+                // update leaderboard for winner
+                const promiseGamesWonLeaderboard = FBInstant.getLeaderboardAsync(window.fbLeaderboards.TOTAL_GAMES_WON);
+                const promiseGamesWonLeaderboardEntry = promiseGamesWonLeaderboard.then((leaderboard) => {
+                    return leaderboard.getPlayerEntryAsync();
+                }, (rejected) => {
+                    console.log(rejected);
+                    this.toast(`Please report this error: NL-3`);
+                });
+                const promiseGamesWonLeaderboardPost = Promise.all([promiseGamesWonLeaderboard, promiseGamesWonLeaderboardEntry]).then(([leaderboard, entry]) => {
+                    let win;
+                    if (entry == null) {
+                        win = 0;
+                    } else {
+                        win = entry.getScore();
+                    }
+                    if (isWinner) {
+                        win = win + 1;
+                        leaderboard.setScoreAsync(win).then(() => {
+                            console.log(`${window.fbLeaderboards.TOTAL_GAMES_WON} score saved ${win}`);
+                        });
+                    }
+                    return new Promise((resolve, reject) => {
+                        resolve(win);
+                    });
+                });
+                const promiseTotalGamesLeaderboard = FBInstant.getLeaderboardAsync(window.fbLeaderboards.TOTAL_GAMES);
+                const promiseTotalGamesLeaderboardEntry = promiseTotalGamesLeaderboard.then((leaderboard) => {
+                    return leaderboard.getPlayerEntryAsync();
+                }, (rejected) => {
+                    console.log(rejected);
+                    this.toast(`Please report this error: NL-4`);
+                });
+                const promiseTotalGamesPost = Promise.all([promiseTotalGamesLeaderboard, promiseTotalGamesLeaderboardEntry]).then(([leaderboard, entry]) => {
+                    let total;
+                    if (entry == null) {
+                        total = 0;
+                    } else {
+                        total = entry.getScore();
+                    }
+                    total = total + 1;
+                    leaderboard.setScoreAsync(total).then(() => {
+                        console.log(`${window.fbLeaderboards.TOTAL_GAMES} score saved ${total}`);
+                    });
+                    return new Promise((resolve, reject) => {
+                        resolve(total);
+                    })
+                });
+                Promise.all([promiseGamesWonLeaderboardPost, promiseTotalGamesPost]).then(([win, total]) => {
+                    FBInstant.getLeaderboardAsync(window.fbLeaderboards.WIN_RATE).then((leaderboard) => {
+                        const rate = Math.floor(win / total * 10000);
+                        console.log(`win = ${win} total = ${total}`);
+                        leaderboard.setScoreAsync(rate).then(() => {
+                            console.log(`${window.fbLeaderboards.WIN_RATE} score saved ${rate}`);
+                        }, (rejected) => {
+                            console.log(`${window.fbLeaderboards.WIN_RATE} faled, rate = ${rate}`);
+                            console.log(rejected);
+                        });
+                    }).catch((rejected) => {
+                        console.log(rejected);
+                        this.toast(`Please report this error: NL-2`);
+                    });
+                });
             }
         });
 
@@ -95,17 +163,17 @@ cc.Class({
         });
     },
 
-    emit (ename, payload) {
+    emit(ename, payload) {
         if (this.socket.connected == false) {
             this.socket.open();
             console.log('socket open');
-            
+
         }
         console.log(`emit ${ename} ${JSON.stringify(payload)}`);
         this.socket.emit(ename, payload);
     },
 
-    setGameScene (gameScene) {
+    setGameScene(gameScene) {
         this.gameScene = gameScene;
     },
 
@@ -144,7 +212,7 @@ cc.Class({
     },
 
     start() {
-        if (typeof(FBInstant) != "undefined") {
+        if (typeof (FBInstant) != "undefined") {
             // Facebook Instant Games
             this.initWithFBInstant();
         }

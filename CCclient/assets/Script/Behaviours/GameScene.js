@@ -93,7 +93,9 @@ cc.Class({
                     this.localPlayerBehaviour.updateShockButton(element.power);
                 } else {
                     playerBehaviourObject = this.otherPlayers[otherIndex++];
-                    window.GM.playSound('ding');
+                    if (playerBehaviourObject.node.active == false) {
+                        window.GM.playSound('ding');
+                    }
                     playerBehaviourObject.node.active = true;
                 }
                 playerBehaviourObject.setName(element.name);
@@ -119,6 +121,10 @@ cc.Class({
     update (dt) {
         this.refreshPlayers();
         this.updateRoomNumber();
+        
+        while (window.gameSceneActions.length > 0) {
+            window.gameSceneActions.pop()(this);
+        }
     },
 
     runTimer() {

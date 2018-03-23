@@ -12,4 +12,9 @@ cc.Class({
         }
     },
 
+    setValues(name, score) {
+        this.nameNode.getComponent(cc.Label).string = name;
+        this.scoreNode.getComponent(cc.Label).string = score;
+    }
+
 });

@@ -11671,7 +11671,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 270,
+      "width": 321,
       "height": 66
     },
     "_rotationX": 0,
@@ -11699,8 +11699,8 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_actualFontSize": 52,
-    "_fontSize": 52,
+    "_actualFontSize": 48,
+    "_fontSize": 48,
     "_lineHeight": 66,
     "_enableWrapText": true,
     "_N$file": {
@@ -11708,7 +11708,7 @@
     },
     "_isSystemFontUsed": false,
     "_spacingX": 0,
-    "_N$string": "Fart-board",
+    "_N$string": "Current Score",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",

@@ -15,8 +15,8 @@ cc.Class({
 
     show(data) {
         let i;
-        for (i = 0; i < data.data.length; i++) {
-            const element = data.data[i];
+        for (i = 0; i < data.length; i++) {
+            const element = data[i];
             const resBehav = this.entryNodes[i].getComponent('ResultEntryBehaviour');
             resBehav.nameNode.getComponent(cc.Label).string = element.name;
             resBehav.scoreNode.getComponent(cc.Label).string = element.score;

@@ -23,3 +23,9 @@ window.loginMethods = {
     FACEBOOK: "fb",
     FB_INST_GAMES: "fbig"
 };
+
+window.fbLeaderboards = {
+    TOTAL_GAMES: "Total Games",
+    TOTAL_GAMES_WON: "Total Games Won",
+    WIN_RATE: "win_rate_2"
+};
