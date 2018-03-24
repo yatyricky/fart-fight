@@ -13,18 +13,6 @@ cc.Class({
         helpPage: {
             default: null,
             type: cc.Node
-        },
-        leaderboardPage: {
-            default: null,
-            type: cc.Node
-        },
-        scoreEntryPrefab: {
-            default: null,
-            type: cc.Prefab
-        },
-        leaderboardContainer1: {
-            default: null,
-            type: cc.Node
         }
     },
 
@@ -59,27 +47,6 @@ cc.Class({
         } else {
             window.GM.toast("Please enter your name");
         }
-    },
-
-    onLeaderboardClicked() {
-        this.leaderboardPage.active = true;
-        if (typeof (FBInstant) != "undefined") {
-            // Facebook Instant Games
-            FBInstant.getLeaderboardAsync(window.fbLeaderboards.TOTAL_GAMES).then((leaderboard) => {
-                    return leaderboard.getEntriesAsync(10, 0);
-            }).then((entries) => {
-                for (let i = 0; i < entries.length; i++) {
-                    const element = entries[i];
-                    const scoreEntry = cc.instantiate(this.scoreEntryPrefab);
-                    scoreEntry.getComponent('ResultEntryBehaviour').setValues(element.getPlayer().getName(), element.getScore());
-                    this.leaderboardContainer1.addChild(scoreEntry);
-                }
-            });
-        }
-    },
-
-    onLeaderboardDismiss() {
-        this.leaderboardPage.active = false;
     },
 
     onHelpClicked() {
