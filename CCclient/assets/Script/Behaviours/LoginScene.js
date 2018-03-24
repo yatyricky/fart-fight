@@ -61,6 +61,24 @@ cc.Class({
         while (window.loginSceneActions.length > 0) {
             window.loginSceneActions.pop()(this);
         }
+    },
+
+    onShareClicked() {
+        if (typeof (FBInstant) != "undefined") {
+            console.log(`start to share`);
+            FBInstant.shareAsync({
+                intent: 'SHARE',
+                image: window.shareIcon,
+                text: 'Come play FF with me!'
+            }).then(() => {
+                // continue with the game.
+                console.log(`resolved`);
+                
+            }, (rejected) => {
+                console.log(rejected);
+                
+            });
+        }
     }
 
 });
