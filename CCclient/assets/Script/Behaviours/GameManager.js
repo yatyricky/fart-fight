@@ -194,6 +194,30 @@ cc.Class({
         window.loginSceneActions.push((scene) => {
             scene.inputPlayerName.getComponent(cc.EditBox).string = this.localName;
         });
+    },
+
+    fbPlayInterstitialAd() {
+        if (typeof (FBInstant) != "undefined") {
+            let ad = null;
+            FBInstant.getInterstitialAdAsync(window.fbAdIds.INT_END_GAME).then((interstitial) => {
+                Logger.i(interstitial.getPlacementID());
+                ad = interstitial;
+                return interstitial.loadAsync();
+            }, (rejected) => {
+                Logger.i(`get ad failed`);
+                Logger.i(rejected);
+            }).then(() => {
+                return ad.showAsync();
+            }, (rejected) => {
+                Logger.i(`load ad failed`);
+                Logger.i(rejected);
+            }).then(() => {
+                Logger.i(`ad watched`);
+            }, (rejected) => {
+                Logger.i(`watch ad failed`);
+                Logger.i(rejected);
+            });
+        }
     }
 
 });

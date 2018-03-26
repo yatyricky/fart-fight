@@ -51,6 +51,7 @@ cc.Class({
 
     onHelpClicked() {
         this.helpPage.active = true;
+        window.GM.fbPlayInterstitialAd();
     },
 
     onHelpDismiss() {

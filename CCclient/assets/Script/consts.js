@@ -29,3 +29,7 @@ window.fbLeaderboards = {
     TOTAL_GAMES_WON: "Total Games Won",
     WIN_RATE: "win_rate_2"
 };
+
+window.fbAdIds = {
+    INT_END_GAME: "591294411203701_59564734102002"
+}
