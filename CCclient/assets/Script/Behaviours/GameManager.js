@@ -34,6 +34,8 @@ cc.Class({
             autoConnect: false,
             transports: ["websocket"]
         });
+        this.socketQueue = [];
+
         this.playerData = null;
         this.roomId = -1;
         this.localPid = "";
@@ -45,7 +47,11 @@ cc.Class({
 
         this.socket.on(recs.LINK_ESTABLISHED, (data) => {
             console.log('>> Link Established');
-            this.stopSpinner();
+            // this.stopSpinner();
+            while (this.socketQueue.length > 0) {
+                const obj = this.socketQueue.shift();
+                this.socket.emit(obj.ename, obj.payload);
+            }
         });
 
         this.socket.on(recs.UPDATE_PLAYERS, (data) => {
@@ -133,12 +139,16 @@ cc.Class({
 
     emit(ename, payload) {
         if (this.socket.connected == false) {
+            this.startSpinner();
             this.socket.open();
-            console.log('socket open');
-
+            this.socketQueue.push({
+                ename: ename,
+                payload: payload
+            });
+        } else {
+            this.socket.emit(ename, payload);
         }
         console.log(`emit ${ename} ${JSON.stringify(payload)}`);
-        this.socket.emit(ename, payload);
     },
 
     setGameScene(gameScene) {
