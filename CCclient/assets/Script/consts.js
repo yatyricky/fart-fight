@@ -31,5 +31,11 @@ window.fbLeaderboards = {
 };
 
 window.fbAdIds = {
-    INT_END_GAME: "591294411203701_59564734102002"
+    INT_END_GAME: "332886753895975_354489745069009"
+};
+
+window.adStates = {
+    DONE: 0,
+    LOADING: 1,
+    READY: 2
 }

@@ -36,6 +36,12 @@ cc.Class({
         });
         this.socketQueue = [];
 
+        this.fbAdsData = {
+            cd: true,
+            state: window.adStates.DONE,
+            ad: null
+        };
+
         this.playerData = null;
         this.roomId = -1;
         this.localPid = "";
@@ -92,6 +98,7 @@ cc.Class({
             console.log(`>>game end received`);
             window.gameSceneActions.push((scene) => {
                 scene.showBattleResult(data.data);
+                this.fbPlayInterstitialAd();
             });
             if (typeof (FBInstant) != "undefined") {
                 if (data.winner.loginMethod == this.localMethod && data.winner.pid == this.localPid) {
@@ -139,7 +146,6 @@ cc.Class({
 
     emit(ename, payload) {
         if (this.socket.connected == false) {
-            this.startSpinner();
             this.socket.open();
             this.socketQueue.push({
                 ename: ename,
@@ -209,24 +215,38 @@ cc.Class({
     fbPlayInterstitialAd() {
         if (typeof (FBInstant) != "undefined") {
             let ad = null;
-            FBInstant.getInterstitialAdAsync(window.fbAdIds.INT_END_GAME).then((interstitial) => {
-                Logger.i(interstitial.getPlacementID());
-                ad = interstitial;
-                return interstitial.loadAsync();
-            }, (rejected) => {
-                Logger.i(`get ad failed`);
-                Logger.i(rejected);
-            }).then(() => {
-                return ad.showAsync();
-            }, (rejected) => {
-                Logger.i(`load ad failed`);
-                Logger.i(rejected);
-            }).then(() => {
-                Logger.i(`ad watched`);
-            }, (rejected) => {
-                Logger.i(`watch ad failed`);
-                Logger.i(rejected);
-            });
+            if (this.fbAdsData.state == window.adStates.READY && this.fbAdsData.cd == true) {
+                this.startSpinner();
+                this.fbAdsData.ad.showAsync().then(() => {
+                    this.stopSpinner();
+                });
+                this.fbAdsData.cd = false;
+                this.fbAdsData.ad = null;
+                this.fbAdsData.state = window.adStates.DONE;
+                this.scheduleOnce(() => {
+                    this.fbAdsData.cd = true;
+                }, window.AD_CD);
+            } else {
+                if (this.fbAdsData.state == window.adStates.DONE) {
+                    FBInstant.getInterstitialAdAsync(window.fbAdIds.INT_END_GAME).then((interstitial) => {
+                        Logger.i(`interstitial id = ${interstitial.getPlacementID()}`);
+                        this.fbAdsData.ad = interstitial;
+                        return interstitial.loadAsync();
+                    }, (rejected) => {
+                        Logger.i(`get ad failed`);
+                        this.fbAdsData.state = window.adStates.DONE;
+                        Logger.i(rejected);
+                    }).then(() => {
+                        Logger.i(`load ad success`);
+                        this.fbAdsData.state = window.adStates.READY;
+                    }, (rejected) => {
+                        Logger.i(`load ad failed`);
+                        this.fbAdsData.state = window.adStates.DONE;
+                        Logger.i(rejected);
+                    });
+                    this.fbAdsData.state = window.adStates.LOADING;
+                }
+            }
         }
     }
 
