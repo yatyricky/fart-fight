@@ -25,13 +25,13 @@ window.loginMethods = {
 };
 
 window.fbLeaderboards = {
-    TOTAL_GAMES: "Total Games",
-    TOTAL_GAMES_WON: "Total Games Won",
+    TOTAL_GAMES: "lv-total-games",
+    TOTAL_GAMES_WON: "total_games_won_1",
     WIN_RATE: "win_rate_2"
 };
 
 window.fbAdIds = {
-    INT_END_GAME: "332886753895975_354489745069009"
+    INT_END_GAME: "591294411203701_595644734102002"
 };
 
 window.adStates = {

@@ -30,6 +30,8 @@ cc.Class({
         this.backgroundMusic.play();
         this.spinner = this.spinnerNode.getComponent('SpinnerBehaviour');
 
+        console.log(FBInstant.context.getID());
+
         this.socket = io(serverURL, {
             autoConnect: false,
             transports: ["websocket"]
@@ -103,37 +105,41 @@ cc.Class({
             if (typeof (FBInstant) != "undefined") {
                 if (data.winner.loginMethod == this.localMethod && data.winner.pid == this.localPid) {
                     // update leaderboard for winner
-                    const lb1 = FBInstant.getLeaderboardAsync(window.fbLeaderboards.TOTAL_GAMES_WON);
-                    const lb1Entry = lb1.then((leaderboard) => {
-                        return leaderboard.getPlayerEntryAsync();
+                    FBInstant.getLeaderboardAsync(window.fbLeaderboards.TOTAL_GAMES_WON).then((leaderboard) => {
+                        leaderboard.getPlayerEntryAsync().then((entry) => {
+                            let win = 1;
+                            if (entry != null) {
+                                win += entry.getScore();
+                            }
+                            leaderboard.setScoreAsync(win).then(() => {
+                                console.log(`${window.fbLeaderboards.TOTAL_GAMES_WON} score saved ${win}`);
+                            }, (rejected) => {
+                                console.log(rejected);
+                            });
+                        }, (rejected) => {
+                            console.log(rejected);
+                        });
                     }, (rejected) => {
                         console.log(rejected);
                     });
-                    Promise.all([lb1, lb1Entry]).then(([leaderboard, entry]) => {
-                        let win = 1;
-                        if (entry != null) {
-                            win += entry.getScore();
-                        }
-                        leaderboard.setScoreAsync(win).then(() => {
-                            console.log(`${window.fbLeaderboards.TOTAL_GAMES_WON} score saved ${win}`);
-                        });
-                    });
                 }
                 // update total played
-                const lb2 = FBInstant.getLeaderboardAsync(window.fbLeaderboards.TOTAL_GAMES);
-                const lb2Entry = lb2.then((leaderboard) => {
-                    return leaderboard.getPlayerEntryAsync();
+                FBInstant.getLeaderboardAsync(window.fbLeaderboards.TOTAL_GAMES).then((leaderboard) => {
+                    leaderboard.getPlayerEntryAsync().then((entry) => {
+                        let total = 1;
+                        if (entry != null) {
+                            total += entry.getScore();
+                        }
+                        leaderboard.setScoreAsync(total).then(() => {
+                            console.log(`${window.fbLeaderboards.TOTAL_GAMES} score saved ${total}`);
+                        }, (rejected) => {
+                            console.log(rejected);
+                        });
+                    }, (rejected) => {
+                        console.log(rejected);
+                    });
                 }, (rejected) => {
                     console.log(rejected);
-                });
-                Promise.all([lb2, lb2Entry]).then(([leaderboard, entry]) => {
-                    let total = 1;
-                    if (entry != null) {
-                        total += entry.getScore();
-                    }
-                    leaderboard.setScoreAsync(total).then(() => {
-                        console.log(`${window.fbLeaderboards.TOTAL_GAMES} score saved ${total}`);
-                    });
                 });
             }
         });
@@ -231,16 +237,16 @@ cc.Class({
                     FBInstant.getInterstitialAdAsync(window.fbAdIds.INT_END_GAME).then((interstitial) => {
                         Logger.i(`interstitial id = ${interstitial.getPlacementID()}`);
                         this.fbAdsData.ad = interstitial;
-                        return interstitial.loadAsync();
+                        interstitial.loadAsync().then(() => {
+                            Logger.i(`load ad success`);
+                            this.fbAdsData.state = window.adStates.READY;
+                        }, (rejected) => {
+                            Logger.i(`load ad failed`);
+                            this.fbAdsData.state = window.adStates.DONE;
+                            Logger.i(rejected);
+                        });
                     }, (rejected) => {
                         Logger.i(`get ad failed`);
-                        this.fbAdsData.state = window.adStates.DONE;
-                        Logger.i(rejected);
-                    }).then(() => {
-                        Logger.i(`load ad success`);
-                        this.fbAdsData.state = window.adStates.READY;
-                    }, (rejected) => {
-                        Logger.i(`load ad failed`);
                         this.fbAdsData.state = window.adStates.DONE;
                         Logger.i(rejected);
                     });
