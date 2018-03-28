@@ -30,8 +30,6 @@ cc.Class({
         this.backgroundMusic.play();
         this.spinner = this.spinnerNode.getComponent('SpinnerBehaviour');
 
-        console.log(FBInstant.context.getID());
-
         this.socket = io(serverURL, {
             autoConnect: false,
             transports: ["websocket"]

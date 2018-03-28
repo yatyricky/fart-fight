@@ -57,6 +57,10 @@ cc.Class({
         faceNuke: {
             default: null,
             type: cc.SpriteFrame
+        },
+        tipsShare: {
+            default: null,
+            type: cc.Node
         }
     },
 
@@ -74,6 +78,7 @@ cc.Class({
         }
 
         window.GM.setGameScene(this);
+        this.inGamePlayers = 1;
     },
     
     start () {
@@ -84,6 +89,7 @@ cc.Class({
         if (window.GM.playerData != null) {
             console.log(`should update players`);
             console.table(window.GM.playerData.data);
+            this.inGamePlayers = window.GM.playerData.data.length;
             let otherIndex = 0;
             for (let i = 0; i < window.GM.playerData.data.length; i++) {
                 const element = window.GM.playerData.data[i];
@@ -124,6 +130,13 @@ cc.Class({
         
         while (window.gameSceneActions.length > 0) {
             window.gameSceneActions.pop()(this);
+        }
+
+        // prompt to invite friends
+        if (this.inGamePlayers == 1) {
+            this.tipsShare.getComponent('TipsShare').show();
+        } else if (this.inGamePlayers > 1) {
+            this.tipsShare.getComponent('TipsShare').dismiss();
         }
     },
 

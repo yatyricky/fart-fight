@@ -24,7 +24,15 @@ cc.Class({
 
     onStartClicked() {
         const name = this.inputPlayerName.getComponent(cc.EditBox).string;
-        const roomId = this.inputRoomId.getComponent(cc.EditBox).string;
+        let roomId = this.inputRoomId.getComponent(cc.EditBox).string;
+        if (roomId == "") {
+            // auto match
+            if (typeof FBInstant != "undefined") {
+                if (FBInstant.context.getID() != null) {
+                    roomId = FBInstant.context.getID();
+                }
+            }
+        }
         const loginMethod = window.GM.localMethod;
         let playerId = window.GM.localPid;
         if (loginMethod == window.loginMethods.DEVICE) {
@@ -65,18 +73,20 @@ cc.Class({
 
     onShareClicked() {
         if (typeof (FBInstant) != "undefined") {
+            console.log(`FBInstant.context.getID() = ${FBInstant.context.getID()}`);
             console.log(`start to share`);
             FBInstant.shareAsync({
-                intent: 'SHARE',
+                intent: 'INVITE',
                 image: window.shareIcon,
-                text: 'Come play FF with me!'
+                text: 'X is asking for your help!',
+                data: { myReplayData: '123' },
             }).then(() => {
                 // continue with the game.
                 console.log(`resolved`);
-                
+
             }, (rejected) => {
                 console.log(rejected);
-                
+
             });
         }
     }
