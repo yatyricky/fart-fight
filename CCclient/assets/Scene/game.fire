@@ -283,7 +283,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 509,
+      "width": 590,
       "height": 74
     },
     "_rotationX": 0,
@@ -292,7 +292,7 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -32,
+      "x": -29,
       "y": 587
     },
     "_skewX": 0,
@@ -335,7 +335,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 185,
+      "width": 148,
       "height": 48
     },
     "_rotationX": 0,
@@ -344,7 +344,7 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -90.7,
+      "x": -157,
       "y": 0
     },
     "_skewX": 0,
@@ -363,8 +363,8 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_actualFontSize": 40,
-    "_fontSize": 40,
+    "_actualFontSize": 32,
+    "_fontSize": 32,
     "_lineHeight": 48,
     "_enableWrapText": true,
     "_N$file": {
@@ -411,7 +411,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 98,
+      "width": 302,
       "height": 48
     },
     "_rotationX": 0,
@@ -420,7 +420,7 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 108.2,
+      "x": 96,
       "y": 0
     },
     "_skewX": 0,
@@ -439,8 +439,8 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_actualFontSize": 40,
-    "_fontSize": 40,
+    "_actualFontSize": 32,
+    "_fontSize": 32,
     "_lineHeight": 48,
     "_enableWrapText": true,
     "_N$file": {
@@ -448,7 +448,7 @@
     },
     "_isSystemFontUsed": false,
     "_spacingX": 0,
-    "_N$string": "8887",
+    "_N$string": "1913236038748696",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
@@ -465,8 +465,8 @@
     "_spriteFrame": {
       "__uuid__": "b15d1ad9-5a4e-4de2-9855-2724cde7c126"
     },
-    "_type": 0,
-    "_sizeMode": 1,
+    "_type": 1,
+    "_sizeMode": 0,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
@@ -12803,7 +12803,7 @@
       }
     ],
     "_tag": -1,
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 409
@@ -13277,7 +13277,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 395,
-      "height": 120
+      "height": 80
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -13313,7 +13313,7 @@
     },
     "_isSystemFontUsed": false,
     "_spacingX": 0,
-    "_N$string": "Still no one joins the game?\nTry to link with your friends :)",
+    "_N$string": "Still no one joins the game?\nTry to link with a random match.",
     "_N$horizontalAlign": 0,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",

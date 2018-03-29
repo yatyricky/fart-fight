@@ -24,6 +24,8 @@ cc.Class({
         }
     },
 
+    // life cycle
+
     onLoad() {
         cc.game.addPersistRootNode(this.node);
         window.GM = this;
@@ -148,6 +150,12 @@ cc.Class({
         });
     },
 
+    start() {
+        this.initWithFBInstant();
+    },
+
+    // functions
+
     emit(ename, payload) {
         if (this.socket.connected == false) {
             this.socket.open();
@@ -199,21 +207,31 @@ cc.Class({
         }
     },
 
-    start() {
-        if (typeof (FBInstant) != "undefined") {
-            // Facebook Instant Games
-            this.initWithFBInstant();
-        }
-    },
-
     initWithFBInstant() {
-        this.localMethod = window.loginMethods.FB_INST_GAMES;
-        this.localPid = FBInstant.player.getID();
-        this.localName = FBInstant.player.getName();
-        this.localAvatar = FBInstant.player.getPhoto();
-        window.loginSceneActions.push((scene) => {
-            scene.inputPlayerName.getComponent(cc.EditBox).string = this.localName;
-        });
+        if (typeof (FBInstant) != "undefined") {
+            this.localMethod = window.loginMethods.FB_INST_GAMES;
+            this.localPid = FBInstant.player.getID();
+            this.localName = FBInstant.player.getName();
+            this.localAvatar = FBInstant.player.getPhoto();
+            window.loginSceneActions.push((scene) => {
+                scene.inputPlayerName.getComponent(cc.EditBox).string = this.localName;
+            });
+
+            // auto join game if context id is not null
+            const currentContext = FBInstant.context.getID();
+            Logger.i(`Current FB context id = ${currentContext}`);
+            if (currentContext != null) {
+                window.loginSceneActions.push((scene) => {
+                    scene.startGame({
+                        name: this.localName,
+                        roomId: currentContext,
+                        method: this.localMethod,
+                        pid: this.localPid,
+                        avatar: this.localAvatar
+                    });
+                });
+            }
+        }
     },
 
     fbPlayInterstitialAd() {
