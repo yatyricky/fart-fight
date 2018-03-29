@@ -27,11 +27,27 @@ cc.Class({
 
     onShareButtonClicked() {
         if (typeof FBInstant != "undefined") {
-            console.log(FBInstant.context.getID());
-            
-            FBInstant.context.chooseAsync().then(() => {
-                console.log(FBInstant.context.getID());
+            FBInstant.matchPlayerAsync(null, true).then(() => {
+                const roomId = FBInstant.context.getID();
+                FBInstant.updateAsync({
+                    action: 'CUSTOM',
+                    cta: 'Play',
+                    image: window.shareIcon,
+                    text: "",
+                    template: 'play_turn',
+                    data: { myReplayData: '123' },
+                    strategy: 'IMMEDIATE',
+                    notification: 'NO_PUSH',
+                }, (rejected) => {
+                    Logger.i(rejected);
+                });
+                window.GM.playerSwitch(roomId);
+            }, (rejected) => {
+                window.GM.toast("Unable to find a match, please share this game to your friends and play :)");
+                window.GM.stopSpinner();
+                window.GM.fbIgnoreMatch = true;
             });
+            window.GM.startSpinner();
         }
     }
 

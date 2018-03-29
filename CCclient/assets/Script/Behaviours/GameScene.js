@@ -129,7 +129,7 @@ cc.Class({
         this.updateRoomNumber();
         
         while (window.gameSceneActions.length > 0) {
-            window.gameSceneActions.pop()(this);
+            window.gameSceneActions.shift()(this);
         }
 
         // prompt to invite friends

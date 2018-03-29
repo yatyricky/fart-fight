@@ -37,12 +37,14 @@ cc.Class({
             transports: ["websocket"]
         });
         this.socketQueue = [];
+        this.socketLeftQueue = [];
 
         this.fbAdsData = {
             cd: true,
             state: window.adStates.DONE,
             ad: null
         };
+        this.fbIgnoreMatch = false;
 
         this.playerData = null;
         this.roomId = -1;
@@ -72,9 +74,13 @@ cc.Class({
             if (data.res == 'success') {
                 console.log(`login success`);
                 this.roomId = data.roomId;
-                cc.director.loadScene("game", () => {
+                if (cc.director.getScene().name != "game") {
+                    cc.director.loadScene("game", () => {
+                        this.stopSpinner();
+                    });
+                } else {
                     this.stopSpinner();
-                });
+                }
             } else {
                 if (data.reason == 'room is full') {
                     console.log(`room full`);
@@ -87,6 +93,13 @@ cc.Class({
                     this.toast("Please try again");
                 }
                 this.stopSpinner();
+            }
+        });
+
+        this.socket.on(recs.PLAYER_LEFT, (data) => {
+            console.log('player logged off successfully');
+            while (this.socketLeftQueue.length > 0) {
+                this.socketLeftQueue.shift()(data);
             }
         });
 
@@ -185,6 +198,23 @@ cc.Class({
         });
     },
 
+    playerSwitch(roomId) {
+        this.roomId = roomId;
+        this.emit(reqs.LEAVE, {
+            pid: this.localPid,
+            method: this.localMethod
+        });
+        this.socketLeftQueue.push((resp) => {
+            this.emit(reqs.LOGIN, {
+                name: this.localName,
+                roomId: this.roomId,
+                method: this.localMethod,
+                pid: this.localPid,
+                avatar: this.localAvatar
+            });
+        });
+    },
+
     startSpinner() {
         this.spinner.startSpin();
     },
@@ -217,6 +247,7 @@ cc.Class({
                 scene.inputPlayerName.getComponent(cc.EditBox).string = this.localName;
             });
 
+            Logger.i(`Entry point data = ${FBInstant.getEntryPointData()}`);
             // auto join game if context id is not null
             const currentContext = FBInstant.context.getID();
             Logger.i(`Current FB context id = ${currentContext}`);

@@ -13,6 +13,7 @@ window.recs = {
     LINK_ESTABLISHED: "link established",
     UPDATE_PLAYERS: "update players",
     LOGIN_RESULT: "login result",
+    PLAYER_LEFT: "player left",
     RUN_TIMER: "run timer",
     GAME_END: "game end"
 };
