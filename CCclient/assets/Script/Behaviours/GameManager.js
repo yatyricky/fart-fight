@@ -262,6 +262,9 @@ cc.Class({
                     });
                 });
             }
+            FBInstant.onPause(() => {
+                this.playerLeave();
+            });
         }
     },
 
